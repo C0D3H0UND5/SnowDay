@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import twitter4j.Query;
+import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -16,6 +18,8 @@ import twitter4j.TwitterFactory;
 
 /**
  * Created by Jason on 2016-12-20.
+ *
+ * This class will likely contain the code to parse incoming tweets
  */
 
 public class TwitterHelper{
@@ -37,13 +41,18 @@ public class TwitterHelper{
     private DatabaseHelper myDatabase;
 
     public TwitterHelper(Context context, String user) {
-        myDatabase = new DatabaseHelper(context);
+        // myDatabase = new DatabaseHelper(context);
         this.user = user;
-
-        twitter = TwitterFactory.getSingleton();
+        twitter = new TwitterFactory().getInstance();
+        try {
+            twitter.getOAuth2Token();
+        }
+        catch(TwitterException e){
+            e.printStackTrace();
+        }
     }
 
-    public String getDate(Date date){
+    private String getDate(Date date){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar.get(Calendar.DATE) + "/" + (calendar.get(Calendar.MONTH) + 1);
@@ -53,10 +62,13 @@ public class TwitterHelper{
      * Gets the 20 latest tweets from a users timeline
      * @return A list of the tweets
      */
-    public List<Status> getTweets(){
+    private List<Status> getTweets(String user){
         List<Status> statuses;
         try{
-            statuses = twitter.getUserTimeline(user);
+            // statuses = twitter.getUserTimeline(user);
+            Query query = new Query("your welcome");
+            QueryResult result = twitter.search(query);
+            statuses = result.getTweets();
             return statuses;
         }
         catch(TwitterException e) {
@@ -68,7 +80,7 @@ public class TwitterHelper{
 
     public void retrieveLateBuses(){
         ArrayList<Integer> numbers = new ArrayList<Integer>();
-        List<Status> statuses = getTweets();
+        List<Status> statuses = getTweets(user);
         for(Status status : statuses){
             // Gets the body of the tweet
             String text = status.getText().toLowerCase();

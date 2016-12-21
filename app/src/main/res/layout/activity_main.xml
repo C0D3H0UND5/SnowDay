@@ -11,10 +11,20 @@
     tools:context="ca.sjhigh.snowday.MainActivity">
 
     <Button
-        android:text="View all delayed buses"
+        android:text="@string/view_delays_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/viewDelays_button" />
+        android:id="@+id/viewDelays_button"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tweets_textView"
+        android:maxLines="30"
+        android:scrollbars="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
