@@ -10,8 +10,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ca.sjhigh.snowday.MainActivity">
 
-    <TextView
+    <Button
+        android:text="View all delayed buses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/viewDelays_button" />
 </RelativeLayout>

@@ -7,10 +7,9 @@ package ca.sjhigh.snowday;
  * of the app that need that information
  */
 
-public class Person {
+public class Tweet {
 
     private int busNumber;
-    private String pickupTime;
     private int delay;
     private String date;
 
@@ -26,21 +25,12 @@ public class Person {
         return hour + ":" + ((minute < 10)? ("0" + minute) : minute);
     }
 
-    public Person(){}
+    public Tweet(){}
 
-    public Person(int busNumber, String pickupTime){
+    public Tweet(int busNumber, int delay, String date){
         this.busNumber = busNumber;
-        this.pickupTime = pickupTime;
-        this.delay = 0;
-        this.date = null;
-    }
-
-    public String getPickupTime() {
-        return pickupTime;
-    }
-
-    public void setPickupTime(String pickupTime) {
-        this.pickupTime = pickupTime;
+        this.delay = delay;
+        this.date = date;
     }
 
     public int getBusNumber() {
@@ -69,6 +59,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return date + " - Bus " + busNumber + " is running " + delay + "minutes late and should arrive at " + addTime(pickupTime, delay);
+        return date + " - Bus " + busNumber + " is running " + delay + "minutes late and should arrive " + delay + "minutes later than usual";
     }
 }
