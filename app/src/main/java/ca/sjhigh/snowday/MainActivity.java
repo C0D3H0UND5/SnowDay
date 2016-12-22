@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         viewAllDelays.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                new SearchOnTwitter().execute(user);
+                new GetTweets().execute(user);
             }
         });
     }
@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Android won't let us search Twitter on the main thread so we need to use a background thread
      */
-    class SearchOnTwitter extends AsyncTask<String, Void, Integer> {
-        private StringBuilder stringBuilder;
+    class GetTweets extends AsyncTask<String, Void, Integer> {
+        private String stringBuilder;
         private ArrayList<Tweet> tweets;
         private final int SUCCESS = 0;
         private final int FAILURE = SUCCESS + 1;
@@ -93,11 +93,11 @@ public class MainActivity extends AppCompatActivity {
                 // List<twitter4j.Status> tweets = result.getTweets();
 
                 List<twitter4j.Status> tweets = twitter.getUserTimeline(params[0]);
-                stringBuilder = new StringBuilder();
+                stringBuilder = "";
                 if(tweets != null){
                     for(twitter4j.Status tweet : tweets){
-                        stringBuilder.append("@" + tweet.getUser().getScreenName() + " - " + tweet.getText() + "\n\n");
-                        // this.tweets.add(new Tweet("@" + tweet.getUser().getScreenName(), tweet.getText()));
+                        stringBuilder += ("@" + tweet.getUser().getScreenName() + " - " + tweet.getText() + "\n");
+                        stringBuilder += (TwitterHelper.filterTweet(tweet) + "\n\n");
                     }
                     return SUCCESS;
                 }

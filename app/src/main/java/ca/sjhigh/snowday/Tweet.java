@@ -59,6 +59,6 @@ public class Tweet {
 
     @Override
     public String toString() {
-        return date + " - Bus " + busNumber + " is running " + delay + "minutes late and should arrive " + delay + "minutes later than usual";
+        return date + " - Bus " + busNumber + " is running " + ((delay > 0) ? (delay + " minutes late") : ("on time now"));
     }
 }
