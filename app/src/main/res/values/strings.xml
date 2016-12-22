@@ -2,6 +2,7 @@
     <!-- UI strings -->
     <string name="app_name">Snow Day</string>
     <string name="view_delays_button">View all tweets from ASD_South</string>
+    <string name="clear_button">Clear</string>
     <!-- Twitter configuration -->
     <string name="twitter_consumer_key">rAp2FY0VG9TrfvITabX9T8pdl</string>
     <string name="twitter_consumer_secret">qChV4hOKetgzKKvqoHmUdvB5pF4uIOMIMctYfTY2uSvEbzskyy</string>

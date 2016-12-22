@@ -1,7 +1,5 @@
 package ca.sjhigh.snowday;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,7 +7,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import twitter4j.Status;
-import twitter4j.Twitter;
 
 /**
  * Created by Jason on 2016-12-20.
@@ -17,7 +14,7 @@ import twitter4j.Twitter;
  * This class will likely contain the code to parse incoming tweets
  */
 
-public class TwitterHelper{
+public class TwitterHelper {
 
     /** Database helper **/
     // I want to have the app store all of the delays for the current day in a database. It will

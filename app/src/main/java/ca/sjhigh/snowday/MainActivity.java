@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** UI components **/
     private Button viewAllDelays;
+    private Button clearList;
     private TextView tweetList;
 
     /** Logic variables **/
@@ -36,13 +37,22 @@ public class MainActivity extends AppCompatActivity {
 
         // Marry UI components in XML to their corresponding Java variable
         viewAllDelays = (Button)findViewById(R.id.viewDelays_button);
+        clearList = (Button)findViewById(R.id.clear_button);
         tweetList = (TextView) findViewById(R.id.tweets_textView);
+        // Set textview to be scrollable
         tweetList.setMovementMethod(new ScrollingMovementMethod());
         // Execute async Twitter task when the button is clicked
         viewAllDelays.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 new GetTweets().execute(user);
+            }
+        });
+        // Clear delay list
+        clearList.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                tweetList.setText(null);
             }
         });
     }
@@ -82,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Twitter twitter = new TwitterFactory(builder.build()).getInstance();
 
-                // I'll leave this here incase we want to do queries in the future
+                // I'll leave this here in case we want to do queries in the future
                 // Query query = new Query(params[0]);
                 // QueryResult result = twitter.search(query);
                 // List<twitter4j.Status> tweets = result.getTweets();
@@ -91,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 stringBuilder = "";
                 if(tweets != null){
                     for(twitter4j.Status tweet : tweets){
+                        // Put in database
                         stringBuilder += ("@" + tweet.getUser().getScreenName() + " - " + tweet.getText() + "\n");
                         stringBuilder += (TwitterHelper.filterTweet(tweet) + "\n\n");
                     }
