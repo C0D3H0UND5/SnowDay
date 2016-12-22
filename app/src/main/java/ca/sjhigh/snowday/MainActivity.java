@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import twitter4j.Twitter;
@@ -20,30 +19,26 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class MainActivity extends AppCompatActivity {
 
-    // private TwitterHelper twitterHelper;
-
     /** UI components **/
     private Button viewAllDelays;
     private TextView tweetList;
 
     /** Logic variables **/
     private String user;
-    // private String lateBuses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Currently hard-coded. Look into user inputted in future
         user = "ASD_South";
 
         // Marry UI components in XML to their corresponding Java variable
         viewAllDelays = (Button)findViewById(R.id.viewDelays_button);
         tweetList = (TextView) findViewById(R.id.tweets_textView);
         tweetList.setMovementMethod(new ScrollingMovementMethod());
-
-        //twitterHelper = new TwitterHelper(MainActivity.this, user);
-
+        // Execute async Twitter task when the button is clicked
         viewAllDelays.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -54,10 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Android won't let us search Twitter on the main thread so we need to use a background thread
+     * Some reading for the astute http://www.vogella.com/tutorials/AndroidBackgroundProcessing/article.html
      */
     class GetTweets extends AsyncTask<String, Void, Integer> {
         private String stringBuilder;
-        private ArrayList<Tweet> tweets;
         private final int SUCCESS = 0;
         private final int FAILURE = SUCCESS + 1;
         private ProgressDialog dialog;

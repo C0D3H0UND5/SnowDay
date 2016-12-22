@@ -19,45 +19,64 @@ import twitter4j.Twitter;
 
 public class TwitterHelper{
 
-    /** User to get tweets from **/
-    private String user;
-    /** User's transportation information **/
-    // private Tweet tweet;
-    // private int busNumber;
-    // private String pickupTime;
-    /** Twitter object using credentials in twitter4j.properties **/
-    private Twitter twitter;
     /** Database helper **/
+    // I want to have the app store all of the delays for the current day in a database. It will
+    // delete all entries at the end of the day or individually if there is a correction tweet
     // private DatabaseHelper myDatabase;
 
-    public TwitterHelper(Context context, String user) {
-        // myDatabase = new DatabaseHelper(context);
-    }
-
-    private static String getDate(Date date){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return calendar.get(Calendar.DATE) + "/" + (calendar.get(Calendar.MONTH) + 1) + " " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE);
+    /**
+     * Takes in a HH:MM string and adds the delay time in minutes
+     * @param time The normal pickup time
+     * @param delay The time in minutes that the bus is delayed
+     * @return The new arrival time of the bus
+     */
+    private static String addTime(String time, int delay){
+        String[] split = time.split(":");
+        int hour = Integer.valueOf(split[0]);
+        int minute = Integer.valueOf(split[1]);
+        int total = hour*60 + minute;
+        total += delay;
+        hour = total/60;
+        minute = total%60;
+        return hour + ":" + ((minute < 10)? ("0" + minute) : minute);
     }
 
     /**
-     * Turns a status into a Tweet object and returns its textual representation
+     * Strips a date down into the desired components
+     * @param date A Java Date object
+     * @return The modified time consisting of | Day/Month Hour:Minute |
+     */
+    private static String getDate(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int day = calendar.get(Calendar.DATE);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int hour = calendar.get(Calendar.HOUR);
+        int minute = calendar.get(Calendar.MINUTE);
+        return  day + "/" + month + " " + hour + ":" + ((minute < 10)? ("0" + minute): minute);
+    }
+
+    /**
+     * Turns a Status (tweet) into a Tweet object and returns its textual representation
      * @param status The tweet from Twitter
      * @return The textual representation of the important tweet information
      */
     public static String filterTweet(Status status){
-        /** Regex filtering stuff **/
+        /** Any numbers 0-999 | The character string 'one' **/
         Pattern pattern = Pattern.compile("\\d+|one");
         Matcher matcher;
         ArrayList<Integer> numbers = new ArrayList<>();
-
         Tweet tweet = new Tweet();
 
         // Gets the body of the tweet
         String text = status.getText().toLowerCase();
 
+        // If the tweet contains 'clos' or 'cancel' then it means there is a closure
+        if(text.contains("clos") || text.contains("cancel")){
+            return "School closure";
+        }
         // If the tweet contains bus then the bus is either late or being corrected as on time
-        if(text.contains("bus")){
+        else if(text.contains("bus")){
             matcher = pattern.matcher(text);
             // If the tweet contains 'late' or 'delay' then a bus is running late
             if(text.contains("late") || text.contains("delay")){

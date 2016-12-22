@@ -9,21 +9,10 @@ package ca.sjhigh.snowday;
 
 public class Tweet {
 
+    /** Logic variables **/
     private int busNumber;
     private int delay;
     private String date;
-
-    // Takes in a HH:MM string and adds the delay time in minutes
-    private String addTime(String time, int delay){
-        String[] split = time.split(":");
-        int hour = Integer.valueOf(split[0]);
-        int minute = Integer.valueOf(split[1]);
-        int total = hour*60 + minute;
-        total += delay;
-        hour = total/60;
-        minute = total%60;
-        return hour + ":" + ((minute < 10)? ("0" + minute) : minute);
-    }
 
     public Tweet(){}
 
