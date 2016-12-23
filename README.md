@@ -6,11 +6,10 @@ Project currently on version 1.0.0
 
 Screenshots
 -
-![alt tag](https://github.com/C0D3H0UND5/SnowDay/tree/master/screenshots/main.png?raw=true "Optional Title")
-![alt tag](https://github.com/C0D3H0UND5/SnowDay/tree/master/screenshots/delay.png?raw=true "Optional Title")
-![alt tag](https://github.com/C0D3H0UND5/SnowDay/tree/master/screenshots/closure.png?raw=true "Optional Title")
-![alt tag](https://github.com/C0D3H0UND5/SnowDay/tree/master/screenshots/delay_info.png?raw=true "Optional Title")
-![alt tag](https://github.com/C0D3H0UND5/SnowDay/tree/master/screenshots/closure_info.png?raw=true "Optional Title")
+![alt tag](https://github.com/C0D3H0UND5/SnowDay/tree/master/screenshots/main.png?raw=true "Welcome screen")
+![alt tag](https://github.com/C0D3H0UND5/SnowDay/tree/master/screenshots/delay.png?raw=true "Delayed buses screen")
+![alt tag](https://github.com/C0D3H0UND5/SnowDay/tree/master/screenshots/closure.png?raw=true "School closure screen")
+
 
 
 App capabilities:
