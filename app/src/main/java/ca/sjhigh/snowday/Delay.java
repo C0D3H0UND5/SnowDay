@@ -7,18 +7,18 @@ package ca.sjhigh.snowday;
  * of the app that need that information
  */
 
-public class Tweet {
+public class Delay {
 
     /** Logic variables **/
     private int busNumber;
-    private int delay;
+    private int time;
     private String date;
 
-    public Tweet(){}
+    public Delay(){}
 
-    public Tweet(int busNumber, int delay, String date){
+    public Delay(int busNumber, int delay, String date){
         this.busNumber = busNumber;
-        this.delay = delay;
+        this.time = delay;
         this.date = date;
     }
 
@@ -31,11 +31,11 @@ public class Tweet {
     }
 
     public int getDelay() {
-        return delay;
+        return time;
     }
 
-    public void setDelay(int delay) {
-        this.delay = delay;
+    public void setDelay(int time) {
+        this.time = time;
     }
 
     public String getDate() {
@@ -48,6 +48,6 @@ public class Tweet {
 
     @Override
     public String toString() {
-        return date + " - Bus " + busNumber + " is running " + ((delay > 0) ? (delay + " minutes late") : ("on time now"));
+        return date + " - Bus " + busNumber + " is running " + ((time > 0) ? (time + " minutes late") : ("on time now"));
     }
 }

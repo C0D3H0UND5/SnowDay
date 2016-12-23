@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by Jason on 2016-09-19.
- * This class was initially created for another app of mine so I am copying it and modifying it for this project
  *
  * This class is used to interface with the database this app will be using to store bus information.
  * The database will store: The bus number, delay time, and date of delay
@@ -21,15 +20,19 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     /* Database version */
     private static final int DATABASE_VERSION = 2;
     /* Database name */
-    private static final String DATABASE_NAME = "LateBuses.db";
+    private static final String DATABASE_NAME = "SnowDay.db";
     /* Table name */
-    private static final String TABLE_NAME = "bus_table";
+    private static final String TABLE_DELAY = "delay_table";
+    private static final String TABLE_CLOSURE = "closure_table";
 
     /* Table column names */
     private static final String KEY_ID = "ID";
+    /** Delay table **/
     private static final String KEY_NUMBER = "Bus_Number";
     private static final String KEY_DELAY = "Delay";
     private static final String KEY_DATE = "Date";
+    /** Closure table **/
+    private static final String KEY_TEXT = "Closure_Tweet";
 
     /**
      * Instantiates a new database helper object
@@ -41,114 +44,166 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + "INTEGER PRIMARY KEY," +
+        String CREATE_DELAY_TABLE = "CREATE TABLE " + TABLE_DELAY + "(" + KEY_ID + "INTEGER PRIMARY KEY," +
                             KEY_NUMBER + " INTEGER," + KEY_DELAY + " INTEGER," + KEY_DATE + " TEXT" + ")";
-        db.execSQL(CREATE_TABLE);
+        String CREATE_CLOSURE_TABLE = "CREATE TABLE " + TABLE_CLOSURE + "(" + KEY_ID + "INTEGER PRIMARY KEY, "
+                                    + KEY_TEXT + " TEXT," + KEY_DATE + " TEXT" + ")";
+        db.execSQL(CREATE_DELAY_TABLE);
+        db.execSQL(CREATE_CLOSURE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int one, int two){
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_DELAY);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLOSURE);
         onCreate(db);
     }
 
     /**
-     * Breaks down a person object and inserts it into the database
-     * @param tweet Tweet object containing bus information
+     * Stores a record of a delay to the database
+     * @param delay Delay object containing delay information
      * @return Whether or not the insertion succeeded
      */
-    public boolean insertRecord(Tweet tweet){
+    public boolean insertDelay(Delay delay){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_NUMBER, tweet.getBusNumber());
-        values.put(KEY_DELAY, tweet.getDelay());
-        values.put(KEY_DATE, tweet.getDate());
-        long result = db.insert(TABLE_NAME, null, values);
+        values.put(KEY_NUMBER, delay.getBusNumber());
+        values.put(KEY_DELAY, delay.getDelay());
+        values.put(KEY_DATE, delay.getDate());
+        long result = db.insert(TABLE_DELAY, null, values);
         db.close();
         return result != -1;
     }
 
     /**
-     * Updates the entry of the specified person
-     * @param tweet The tweet object
-     * @return whether or not the update operation succeeded
+     * Stores a record of a closure to the database
+     * @param closure Closure object containing closure information
+     * @return Whether or not the insertion succeeded
      */
-    public boolean updateRecord(Tweet tweet){
+    public boolean insertClosure(Closure closure){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_NUMBER, tweet.getBusNumber());
-        values.put(KEY_DELAY, tweet.getDelay());
-        values.put(KEY_DATE, tweet.getDate());
-        long result = db.update(TABLE_NAME, values, KEY_NUMBER + "= ?", new String[] {String.valueOf(tweet.getBusNumber())});
+        values.put(KEY_TEXT, closure.getText());
+        values.put(KEY_DATE, closure.getDate());
+        long result = db.insert(TABLE_CLOSURE, null, values);
         db.close();
         return result != -1;
     }
 
     /**
-     * Returns the information regarding a certain bus
-     * @param busNumber The bus number that the user takes
-     * @return The person object
+     * Updates the record of a delay based on the bus number
+     * @param delay Delay object containing delay information
+     * @return Whether or not the update operation succeeded
      */
-    public Tweet retrieveRecord(int busNumber){
+    public boolean updateDelay(Delay delay){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_NUMBER + " = ?";
+        ContentValues values = new ContentValues();
+        values.put(KEY_NUMBER, delay.getBusNumber());
+        values.put(KEY_DELAY, delay.getDelay());
+        values.put(KEY_DATE, delay.getDate());
+        long result = db.update(TABLE_DELAY, values, KEY_NUMBER + "= ?", new String[] {String.valueOf(delay.getBusNumber())});
+        db.close();
+        return result != -1;
+    }
+
+    // This will get used when the information for the user's buses is collected and processed
+    /**
+     * Returns the information regarding a certain bus delay
+     * @param busNumber The bus number to get the delay of
+     * @return Delay object containing delay information
+     */
+    public Delay retrieveDelay(int busNumber){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_DELAY + " WHERE " + KEY_NUMBER + " = ?";
         String[] selectionArguments = {String.valueOf(busNumber)};
         Cursor cursor = db.rawQuery(query, selectionArguments);
-        Tweet person = new Tweet();
+        Delay delay = new Delay();
         // If the query returned a result
         if(cursor.moveToFirst()){
-            person.setBusNumber(cursor.getInt(1));
-            person.setDelay(cursor.getInt(2));
-            person.setDate(cursor.getString(3));
+            delay.setBusNumber(cursor.getInt(1));
+            delay.setDelay(cursor.getInt(2));
+            delay.setDate(cursor.getString(3));
         }
         db.close();
         cursor.close();
-        return person;
+        return delay;
     }
 
     /**
-     * Returns all of the persons in the database in an array
-     * @return All the persons in the database
+     * Returns all of the delays stored in the database
+     * @return All of the delays as Delay objects
      */
-    public Tweet[] retrieveAllRecords(){
+    public Delay[] retrieveDelays(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_DELAY, null);
         int count = cursor.getCount();
-        Tweet[] personList = new Tweet[count];
+        Delay[] delayList = new Delay[count];
         if(cursor.moveToFirst()) {
             do {
-                Tweet person = new Tweet();
-                person.setBusNumber(cursor.getInt(1));
-                person.setDelay(cursor.getInt(2));
-                person.setDate(cursor.getString(3));
-                personList[personList.length - count] = person;
+                Delay delay = new Delay();
+                delay.setBusNumber(cursor.getInt(1));
+                delay.setDelay(cursor.getInt(2));
+                delay.setDate(cursor.getString(3));
+                delayList[delayList.length - count] = delay;
                 count--;
             } while (cursor.moveToNext());
         }
         db.close();
         cursor.close();
-        return personList;
+        return delayList;
     }
 
     /**
-     * Deletes the record of the specified person
+     * Returns all of the closures stored in the database
+     * @return All of the closures as Closure objects
+     */
+    public Closure[] retrieveClosures(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CLOSURE, null);
+        int count = cursor.getCount();
+        Closure[] closureList = new Closure[count];
+        if(cursor.moveToFirst()) {
+            do {
+                Closure closure = new Closure();
+                closure.setText(cursor.getString(1));
+                closure.setDate(cursor.getString(2));
+                closureList[closureList.length - count] = closure;
+                count--;
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        cursor.close();
+        return closureList;
+    }
+
+    /**
+     * Deletes the record of the specified delay
      * @param busNumber The number of the bus in the record to delete
      */
-    public boolean deleteRecord(int busNumber){
+    public boolean deleteDelay(int busNumber){
         SQLiteDatabase db = this.getWritableDatabase();
         String whereClause = KEY_NUMBER + "= ?";
         String[] whereArgs = {String.valueOf(busNumber)};
-        long result = db.delete(TABLE_NAME, whereClause, whereArgs);
+        long result = db.delete(TABLE_DELAY, whereClause, whereArgs);
         db.close();
         return result != -1;
     }
 
     /**
-     * Deletes all the records in the database (I want to modify it to drop any that aren't from the current day
+     * Deletes all the delays in the database (I want to modify it to drop any that aren't from the current day
      */
-    public void deleteAll(){
+    public void deleteAllDelays(){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, null, null);
+        db.delete(TABLE_DELAY, null, null);
+        db.close();
+    }
+
+    /**
+     * Deletes all the closures in the database (I want to modify it to drop any that aren't from the current day
+     */
+    public void deleteAllClosures(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_CLOSURE, null, null);
         db.close();
     }
 
@@ -159,8 +214,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
      */
     public boolean isStored(int busNumber){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_NUMBER + " = " + busNumber;
-        Cursor cursor = db.rawQuery(query, null);
+        String query = "SELECT * FROM " + TABLE_DELAY + " WHERE " + KEY_NUMBER + " = ?";
+        String[] selectionArguments = {String.valueOf(busNumber)};
+        Cursor cursor = db.rawQuery(query, selectionArguments);
         int count = cursor.getCount();
         cursor.close();
         return count > 0;

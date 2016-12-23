@@ -36,14 +36,12 @@ public class BusDelays extends AppCompatActivity {
         clearList.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // Add this button in BusDelay
                 tweetList.setText(null);
             }
         });
         deleteAll.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // Add this button in BusDelay
                 deleteRecords();
                 tweetList.setText(null);
             }
@@ -56,11 +54,10 @@ public class BusDelays extends AppCompatActivity {
      * Retrieves all of the records from the database and displays them
      */
     private void displayRecords(){
-        // Change to retrieve delays
-        String string = "Current delays\n\n";
-        Tweet[] tweets = myDatabase.retrieveAllRecords();
-        for(Tweet tweet : tweets){
-            string += tweet.toString() + "\n\n";
+        String string = "";
+        Delay[] delays = myDatabase.retrieveDelays();
+        for(Delay delay : delays){
+            string += delay.toString() + "\n\n";
         }
         tweetList.setText(string);
     }
@@ -69,7 +66,6 @@ public class BusDelays extends AppCompatActivity {
      * Deletes all of the records in the database
      */
     private void deleteRecords(){
-        // Change to delete delays
-        myDatabase.deleteAll();
+        myDatabase.deleteAllDelays();
     }
 }

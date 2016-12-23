@@ -36,15 +36,14 @@ public class SchoolClosures extends AppCompatActivity {
         clearList.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // Add this button in BusDelay
                 tweetList.setText(null);
             }
         });
         deleteAll.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // Add this button in BusDelay
                 deleteRecords();
+                tweetList.setText(null);
             }
         });
 
@@ -55,11 +54,10 @@ public class SchoolClosures extends AppCompatActivity {
      * Retrieves all of the records from the database and displays them
      */
     private void displayRecords(){
-        // Change to retrieve closures (modify database to contain another column that is either delay or closure)
-        String string = "Current closures\n\n";
-        Tweet[] tweets = myDatabase.retrieveAllRecords();
-        for(Tweet tweet : tweets){
-            string += tweet.toString() + "\n\n";
+        String string = "";
+        Closure[] closures = myDatabase.retrieveClosures();
+        for(Closure closure : closures){
+            string += closure.toString() + "\n\n";
         }
         tweetList.setText(string);
     }
@@ -68,7 +66,6 @@ public class SchoolClosures extends AppCompatActivity {
      * Deletes all of the records in the database
      */
     private void deleteRecords(){
-        // Change to delete closures (Modify database helper)
-        myDatabase.deleteAll();
+        myDatabase.deleteAllClosures();
     }
 }

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.sjhigh.snowday">
 
-    <!-- Permission - Connect to the internet to send and fetch tweets -->
+    <!-- Permission - Connect to the internet to send and fetch delays -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".BusDelays" />
-        <activity android:name=".SchoolClosures"></activity>
+        <activity android:name=".SchoolClosures"/>
     </application>
 
 </manifest>

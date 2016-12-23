@@ -6,6 +6,10 @@
     <string name="view_closures_button">View Closures</string>
     <string name="clear_button">Clear</string>
     <string name="delete_all_button">Delete All</string>
+    <string name="title_delays">Current Delays</string>
+    <string name="title_closures">Current Closures</string>
+    <!-- Art credit -->
+    <string name="credit_greyhound">Credit: Amy Dai</string>
     <!-- Twitter configuration -->
     <string name="twitter_consumer_key">rAp2FY0VG9TrfvITabX9T8pdl</string>
     <string name="twitter_consumer_secret">qChV4hOKetgzKKvqoHmUdvB5pF4uIOMIMctYfTY2uSvEbzskyy</string>

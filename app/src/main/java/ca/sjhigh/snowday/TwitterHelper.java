@@ -54,66 +54,28 @@ public class TwitterHelper {
     }
 
     /**
-     * Turns a Status (tweet) into a Tweet object and returns its textual representation
-     * @param status The tweet from Twitter
-     * @return The textual representation of the important tweet information
-     */
-    public static String filterTweet(Status status){
-        ArrayList<Integer> numbers = new ArrayList<>();
-        Tweet tweet = new Tweet();
-
-        // Gets the body of the tweet
-        String text = status.getText().toLowerCase();
-
-        // If the tweet contains 'clos' or 'cancel' then it means there is a closure
-        if(text.contains("clos") || text.contains("cancel")){
-            return "School closure";
-        }
-        // If the tweet contains bus then the bus is either late or being corrected as on time
-        else if(text.contains("bus")){
-            matcher = PATTERN.matcher(text);
-            // If the tweet contains 'late' or 'delay' then a bus is running late
-            if(text.contains("late") || text.contains("delay")){
-                while(matcher.find()){
-                    // If the delay is equal to one hour, change to 60 minutes
-                    int value = (matcher.group().equals("one") || matcher.group().equals("1"))? 60 : Integer.valueOf(matcher.group());
-                    numbers.add(value);
-                }
-                int number = numbers.get(0);
-                int delay = numbers.get(1);
-                String date = getDate(status.getCreatedAt());
-                tweet = new Tweet(number, delay, date);
-                numbers.clear();
-            }
-            // If the tweet contains 'on time' then the bus is back on time
-            else if(text.contains("on time")){
-                while(matcher.find()){
-                    numbers.add(Integer.valueOf(matcher.group()));
-                }
-                int number = numbers.get(0);
-                int delay = 0;
-                String date = getDate(status.getCreatedAt());
-                tweet = new Tweet(number, delay, date);
-            }
-            return tweet.toString();
-        }
-        return "Irrelevant tweet";
-
-
-    }
-
-    /**
-     * Analyzes tweet and stores it in the database if it contains a late bus. If the tweet contains
-     * a correction then it will delete the corresponding delay
-     * @param status The tweet from Twitter
+     * Analyzes tweet and stores it in the database if it contains a late bus or a closure.
+     * If a delay record contains a correction then it will delete the corresponding delay
+     * @param status The status(tweet) from Twitter
+     * @param myDatabase the DatabaseHelper object to allow database access
      */
     public static void storeTweet(Status status, DatabaseHelper myDatabase){
         ArrayList<Integer> numbers = new ArrayList<>();
-        Tweet tweet = new Tweet();
 
         // Gets the body of the tweet
         String text = status.getText().toLowerCase();
 
+        // What if all buses are running on a delay (i.e. buses run one hour delay in bad weather)
+        // What if ...
+
+        // If the tweet contains 'clos' or 'cancel' then it means there is a closure
+        // Try to differentiate between 'closed', school or schools are closed, and 'closing', a
+        // school or school(s) are closing
+        if(text.contains("clos") || text.contains("cancel")){
+            String date = getDate(status.getCreatedAt());
+            Closure closure = new Closure(text, date);
+            myDatabase.insertClosure(closure);
+        }
         // If the tweet contains bus then the bus is either late or being corrected as on time
         if(text.contains("bus")){
             matcher = PATTERN.matcher(text);
@@ -125,15 +87,15 @@ public class TwitterHelper {
                     numbers.add(value);
                 }
                 int number = numbers.get(0);
-                int delay = numbers.get(1);
+                int time = numbers.get(1);
                 String date = getDate(status.getCreatedAt());
-                tweet = new Tweet(number, delay, date);
+                Delay delay = new Delay(number, time, date);
 
                 if(myDatabase.isStored(numbers.get(0))){
-                    myDatabase.updateRecord(tweet);
+                    myDatabase.updateDelay(delay);
                 }
                 else{
-                    myDatabase.insertRecord(tweet);
+                    myDatabase.insertDelay(delay);
                 }
                 numbers.clear();
             }
@@ -142,7 +104,7 @@ public class TwitterHelper {
                 while(matcher.find()){
                     numbers.add(Integer.valueOf(matcher.group()));
                 }
-                myDatabase.deleteRecord(numbers.get(0));
+                myDatabase.deleteDelay(numbers.get(0));
             }
         }
     }

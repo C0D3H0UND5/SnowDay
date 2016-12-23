@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 // Send intent to BusDelays.class with database helper
-
-                // Works like a charm
                 Intent delays = new Intent(MainActivity.this, BusDelays.class);
                 startActivity(delays);
             }
@@ -64,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 // Send intent to SchoolClosures.class with database helper
-
-                // Something is fucky here
                 Intent closures = new Intent(MainActivity.this, SchoolClosures.class);
                 startActivity(closures);
             }
