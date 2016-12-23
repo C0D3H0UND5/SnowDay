@@ -2,7 +2,7 @@
 
 This project will use [Semantic Versioning](http://semver.org/)
 
-Project currently on version 0.3.1
+Project currently on version 0.4.2
 
 App capabilities:
 -------------------------------------------------------------------
