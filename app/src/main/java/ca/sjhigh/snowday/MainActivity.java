@@ -1,13 +1,13 @@
 package ca.sjhigh.snowday;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,9 +22,7 @@ public class MainActivity extends AppCompatActivity {
     /** UI components **/
     private Button getTweets;
     private Button viewDelays;
-    private Button clearList;
-    private Button deleteAll;
-    private TextView tweetList;
+    private Button viewClosures;
 
     /** Logic variables **/
     private String user;
@@ -41,13 +39,9 @@ public class MainActivity extends AppCompatActivity {
         myDatabase = new DatabaseHelper(MainActivity.this);
 
         // Marry UI components in XML to their corresponding Java variable
-        getTweets = (Button)findViewById(R.id.viewDelays_button);
-        clearList = (Button)findViewById(R.id.clear_button);
-        viewDelays = (Button)findViewById(R.id.showAll_button);
-        deleteAll = (Button)findViewById(R.id.deleteAll_button);
-        tweetList = (TextView) findViewById(R.id.tweets_textView);
-        // Set TextView to be scrollable
-        tweetList.setMovementMethod(new ScrollingMovementMethod());
+        getTweets = (Button)findViewById(R.id.twitter_main_button);
+        viewDelays = (Button)findViewById(R.id.delays_main_button);
+        viewClosures = (Button)findViewById(R.id.closures_main_button);
 
         /** Add click listeners **/
         getTweets.setOnClickListener(new View.OnClickListener(){
@@ -59,40 +53,23 @@ public class MainActivity extends AppCompatActivity {
         viewDelays.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                displayRecords();
+                // Send intent to BusDelays.class with database helper
+
+                // Works like a charm
+                Intent delays = new Intent(MainActivity.this, BusDelays.class);
+                startActivity(delays);
             }
         });
-        clearList.setOnClickListener(new View.OnClickListener(){
+        viewClosures.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                tweetList.setText(null);
+                // Send intent to SchoolClosures.class with database helper
+
+                // Something is fucky here
+                Intent closures = new Intent(MainActivity.this, SchoolClosures.class);
+                startActivity(closures);
             }
         });
-        deleteAll.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                deleteRecords();
-            }
-        });
-    }
-
-    /**
-     * Retrieves all of the records from the database and displays them
-     */
-    private void displayRecords(){
-        String string = "Current delays\n\n";
-        Tweet[] tweets = myDatabase.retrieveAllRecords();
-        for(Tweet tweet : tweets){
-            string += tweet.toString() + "\n\n";
-        }
-        tweetList.setText(string);
-    }
-
-    /**
-     * Deletes all of the records in the database
-     */
-    private void deleteRecords(){
-        myDatabase.deleteAll();
     }
 
     /**
@@ -156,12 +133,12 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(result);
             dialog.dismiss();
             if(result == SUCCESS){
-                // Toast.makeText(MainActivity.this, getString(R.string.success), Toast.LENGTH_LONG).show();
-                dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.success));
+                Toast.makeText(MainActivity.this, getString(R.string.success), Toast.LENGTH_LONG).show();
+                // dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.success));
             }
             else{
-                // Toast.makeText(MainActivity.this, getString(R.string.error), Toast.LENGTH_LONG).show();
-                dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.error));
+                Toast.makeText(MainActivity.this, getString(R.string.error), Toast.LENGTH_LONG).show();
+                // dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.error));
             }
         }
     }

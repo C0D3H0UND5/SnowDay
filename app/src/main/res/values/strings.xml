@@ -2,14 +2,13 @@
     <!-- UI strings -->
     <string name="app_name">Snow Day</string>
     <string name="get_tweets_button">Gather tweets from ASD_South</string>
-    <string name="show_all_button">View Delays</string>
+    <string name="view_delays_button">View Delays</string>
+    <string name="view_closures_button">View Closures</string>
     <string name="clear_button">Clear</string>
     <string name="delete_all_button">Delete All</string>
     <!-- Twitter configuration -->
     <string name="twitter_consumer_key">rAp2FY0VG9TrfvITabX9T8pdl</string>
     <string name="twitter_consumer_secret">qChV4hOKetgzKKvqoHmUdvB5pF4uIOMIMctYfTY2uSvEbzskyy</string>
-    <string name="twitter_access_token">811015146718040064\-00NcnsNgQ332LLRgHbil2xzoqnKYuoV</string>
-    <string name="twitter_access_token_secret">be5rDCVCv1IP6BU32Ydeawy4LlmMfqBRf91357xessjCg</string>
     <!-- Stuff -->
     <string name="action_settings">Settings</string>
     <string name="success">Tweets successfully gathered</string>

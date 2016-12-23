@@ -3,7 +3,7 @@
     package="ca.sjhigh.snowday">
 
     <!-- Permission - Connect to the internet to send and fetch tweets -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".BusDelays" />
+        <activity android:name=".SchoolClosures"></activity>
     </application>
 
 </manifest>
