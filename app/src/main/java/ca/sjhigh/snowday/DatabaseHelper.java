@@ -19,7 +19,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper{
 
     /* Database version */
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     /* Database name */
     private static final String DATABASE_NAME = "LateBuses.db";
     /* Table name */
