@@ -8,8 +8,8 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.util.Collections;
 import java.util.List;
 
 import twitter4j.Twitter;
@@ -20,41 +20,79 @@ import twitter4j.conf.ConfigurationBuilder;
 public class MainActivity extends AppCompatActivity {
 
     /** UI components **/
-    private Button viewAllDelays;
+    private Button getTweets;
+    private Button viewDelays;
     private Button clearList;
+    private Button deleteAll;
     private TextView tweetList;
 
     /** Logic variables **/
     private String user;
+    // I want to have the app store all of the delays for the current day in a database. It will
+    // delete all entries at the end of the day or individually if there is a correction tweet
+    private DatabaseHelper myDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Currently hard-coded. Look into user inputted in future
         user = "ASD_South";
+        myDatabase = new DatabaseHelper(MainActivity.this);
 
         // Marry UI components in XML to their corresponding Java variable
-        viewAllDelays = (Button)findViewById(R.id.viewDelays_button);
+        getTweets = (Button)findViewById(R.id.viewDelays_button);
         clearList = (Button)findViewById(R.id.clear_button);
+        viewDelays = (Button)findViewById(R.id.showAll_button);
+        deleteAll = (Button)findViewById(R.id.deleteAll_button);
         tweetList = (TextView) findViewById(R.id.tweets_textView);
-        // Set textview to be scrollable
+        // Set TextView to be scrollable
         tweetList.setMovementMethod(new ScrollingMovementMethod());
-        // Execute async Twitter task when the button is clicked
-        viewAllDelays.setOnClickListener(new View.OnClickListener(){
+
+        /** Add click listeners **/
+        getTweets.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 new GetTweets().execute(user);
             }
         });
-        // Clear delay list
+        viewDelays.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                displayRecords();
+            }
+        });
         clearList.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 tweetList.setText(null);
             }
         });
+        deleteAll.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                deleteRecords();
+            }
+        });
+    }
+
+    /**
+     * Retrieves all of the records from the database and displays them
+     */
+    private void displayRecords(){
+        String string = "Current delays\n\n";
+        Tweet[] tweets = myDatabase.retrieveAllRecords();
+        for(Tweet tweet : tweets){
+            string += tweet.toString() + "\n\n";
+        }
+        tweetList.setText(string);
+    }
+
+    /**
+     * Deletes all of the records in the database
+     */
+    private void deleteRecords(){
+        myDatabase.deleteAll();
     }
 
     /**
@@ -62,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
      * Some reading for the astute http://www.vogella.com/tutorials/AndroidBackgroundProcessing/article.html
      */
     class GetTweets extends AsyncTask<String, Void, Integer> {
-        private String stringBuilder;
         private final int SUCCESS = 0;
         private final int FAILURE = SUCCESS + 1;
         private ProgressDialog dialog;
@@ -97,13 +134,13 @@ public class MainActivity extends AppCompatActivity {
                 // QueryResult result = twitter.search(query);
                 // List<twitter4j.Status> tweets = result.getTweets();
 
+                // Gets the tweets from newest to oldest
                 List<twitter4j.Status> tweets = twitter.getUserTimeline(params[0]);
-                stringBuilder = "";
+                // Changes the tweet order to be oldest to newest
+                Collections.reverse(tweets);
                 if(tweets != null){
                     for(twitter4j.Status tweet : tweets){
-                        // Put in database
-                        stringBuilder += ("@" + tweet.getUser().getScreenName() + " - " + tweet.getText() + "\n");
-                        stringBuilder += (TwitterHelper.filterTweet(tweet) + "\n\n");
+                        TwitterHelper.storeTweet(tweet, myDatabase);
                     }
                     return SUCCESS;
                 }
@@ -119,10 +156,12 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(result);
             dialog.dismiss();
             if(result == SUCCESS){
-                tweetList.setText(stringBuilder);
+                // Toast.makeText(MainActivity.this, getString(R.string.success), Toast.LENGTH_LONG).show();
+                dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.success));
             }
             else{
-                Toast.makeText(MainActivity.this, getString(R.string.error), Toast.LENGTH_LONG).show();
+                // Toast.makeText(MainActivity.this, getString(R.string.error), Toast.LENGTH_LONG).show();
+                dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.error));
             }
         }
     }

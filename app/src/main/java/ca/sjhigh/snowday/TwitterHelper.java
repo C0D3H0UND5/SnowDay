@@ -16,10 +16,10 @@ import twitter4j.Status;
 
 public class TwitterHelper {
 
-    /** Database helper **/
-    // I want to have the app store all of the delays for the current day in a database. It will
-    // delete all entries at the end of the day or individually if there is a correction tweet
-    // private DatabaseHelper myDatabase;
+    /** Logic variables **/
+    /** Any numbers 0-999 | The character string 'one' **/
+    private static final Pattern PATTERN = Pattern.compile("\\d+|one");
+    private static Matcher matcher;
 
     /**
      * Takes in a HH:MM string and adds the delay time in minutes
@@ -59,9 +59,6 @@ public class TwitterHelper {
      * @return The textual representation of the important tweet information
      */
     public static String filterTweet(Status status){
-        /** Any numbers 0-999 | The character string 'one' **/
-        Pattern pattern = Pattern.compile("\\d+|one");
-        Matcher matcher;
         ArrayList<Integer> numbers = new ArrayList<>();
         Tweet tweet = new Tweet();
 
@@ -74,7 +71,7 @@ public class TwitterHelper {
         }
         // If the tweet contains bus then the bus is either late or being corrected as on time
         else if(text.contains("bus")){
-            matcher = pattern.matcher(text);
+            matcher = PATTERN.matcher(text);
             // If the tweet contains 'late' or 'delay' then a bus is running late
             if(text.contains("late") || text.contains("delay")){
                 while(matcher.find()){
@@ -103,5 +100,50 @@ public class TwitterHelper {
         return "Irrelevant tweet";
 
 
+    }
+
+    /**
+     * Analyzes tweet and stores it in the database if it contains a late bus. If the tweet contains
+     * a correction then it will delete the corresponding delay
+     * @param status The tweet from Twitter
+     */
+    public static void storeTweet(Status status, DatabaseHelper myDatabase){
+        ArrayList<Integer> numbers = new ArrayList<>();
+        Tweet tweet = new Tweet();
+
+        // Gets the body of the tweet
+        String text = status.getText().toLowerCase();
+
+        // If the tweet contains bus then the bus is either late or being corrected as on time
+        if(text.contains("bus")){
+            matcher = PATTERN.matcher(text);
+            // If the tweet contains 'late' or 'delay' then a bus is running late, add to database
+            if(text.contains("late") || text.contains("delay")){
+                while(matcher.find()){
+                    // If the delay is equal to one hour, change to 60 minutes
+                    int value = (matcher.group().equals("one") || matcher.group().equals("1"))? 60 : Integer.valueOf(matcher.group());
+                    numbers.add(value);
+                }
+                int number = numbers.get(0);
+                int delay = numbers.get(1);
+                String date = getDate(status.getCreatedAt());
+                tweet = new Tweet(number, delay, date);
+
+                if(myDatabase.isStored(numbers.get(0))){
+                    myDatabase.updateRecord(tweet);
+                }
+                else{
+                    myDatabase.insertRecord(tweet);
+                }
+                numbers.clear();
+            }
+            // If the tweet contains 'on time' then the bus is back on time, remove from database
+            else if(text.contains("on time")){
+                while(matcher.find()){
+                    numbers.add(Integer.valueOf(matcher.group()));
+                }
+                myDatabase.deleteRecord(numbers.get(0));
+            }
+        }
     }
 }

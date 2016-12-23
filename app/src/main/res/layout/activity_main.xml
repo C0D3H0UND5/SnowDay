@@ -11,7 +11,7 @@
     tools:context="ca.sjhigh.snowday.MainActivity">
 
     <Button
-        android:text="@string/view_delays_button"
+        android:text="@string/get_tweets_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/viewDelays_button"
@@ -25,7 +25,8 @@
         android:layout_alignParentStart="true"
         android:id="@+id/tweets_textView"
         android:layout_above="@+id/clear_button"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textAlignment="center" />
 
     <Button
         android:text="@string/clear_button"
@@ -34,5 +35,21 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/clear_button" />
+
+    <Button
+        android:text="@string/show_all_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/showAll_button" />
+
+    <Button
+        android:text="@string/delete_all_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/deleteAll_button" />
 
 </RelativeLayout>
