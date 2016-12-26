@@ -72,9 +72,11 @@ public class TwitterHelper {
         // Try to differentiate between 'closed', school or schools are closed, and 'closing', a
         // school or school(s) are closing
         if(text.contains("clos") || text.contains("cancel")){
-            String date = getDate(status.getCreatedAt());
-            Closure closure = new Closure(text, date);
-            myDatabase.insertClosure(closure);
+            if(!myDatabase.isClosureStored(text)){
+                String date = getDate(status.getCreatedAt());
+                Closure closure = new Closure(text, date);
+                myDatabase.insertClosure(closure);
+            }
         }
         // If the tweet contains bus then the bus is either late or being corrected as on time
         if(text.contains("bus")){
@@ -91,7 +93,7 @@ public class TwitterHelper {
                 String date = getDate(status.getCreatedAt());
                 Delay delay = new Delay(number, time, date);
 
-                if(myDatabase.isStored(numbers.get(0))){
+                if(myDatabase.isDelayStored(numbers.get(0))){
                     myDatabase.updateDelay(delay);
                 }
                 else{

@@ -27,10 +27,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     /* Table column names */
     private static final String KEY_ID = "ID";
+    private static final String KEY_DATE = "Date";
     /** Delay table **/
     private static final String KEY_NUMBER = "Bus_Number";
     private static final String KEY_DELAY = "Delay";
-    private static final String KEY_DATE = "Date";
     /** Closure table **/
     private static final String KEY_TEXT = "Closure_Tweet";
 
@@ -212,10 +212,25 @@ public class DatabaseHelper extends SQLiteOpenHelper{
      * @param busNumber The bus number to check
      * @return If the value is already stored
      */
-    public boolean isStored(int busNumber){
+    public boolean isDelayStored(int busNumber){
         SQLiteDatabase db = this.getWritableDatabase();
         String query = "SELECT * FROM " + TABLE_DELAY + " WHERE " + KEY_NUMBER + " = ?";
         String[] selectionArguments = {String.valueOf(busNumber)};
+        Cursor cursor = db.rawQuery(query, selectionArguments);
+        int count = cursor.getCount();
+        cursor.close();
+        return count > 0;
+    }
+
+    /**
+     * Checks if the text inputted matches a record stored in the database
+     * @param text The text to check
+     * @return If the value is already stored
+     */
+    public boolean isClosureStored(String text){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_CLOSURE + " WHERE " + KEY_TEXT + " = ?";
+        String[] selectionArguments = {text};
         Cursor cursor = db.rawQuery(query, selectionArguments);
         int count = cursor.getCount();
         cursor.close();

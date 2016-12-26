@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.sjhigh.snowday">
 
-    <!-- Permission - Connect to the internet to send and fetch delays -->
+    <!-- Permission - Connect to the internet to get tweets -->
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
