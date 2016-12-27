@@ -2,12 +2,14 @@
     <!-- UI strings -->
     <string name="app_name">Snow Day</string>
     <string name="get_tweets_button">Gather tweets from ASD_South</string>
+    <string name="edit_information_button">Edit information</string>
     <string name="view_delays_button">View Delays</string>
     <string name="view_closures_button">View Closures</string>
     <string name="clear_button">Clear</string>
     <string name="delete_all_button">Delete All</string>
     <string name="title_delays">Current Delays</string>
     <string name="title_closures">Current Closures</string>
+    <string name="update_button">Update</string>
     <!-- Art credit -->
     <string name="credit_greyhound">Credit: Amy Dai</string>
     <!-- Twitter configuration -->

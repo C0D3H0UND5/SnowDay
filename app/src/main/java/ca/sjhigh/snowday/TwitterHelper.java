@@ -14,7 +14,7 @@ import twitter4j.Status;
  * This class will likely contain the code to parse incoming tweets
  */
 
-public class TwitterHelper {
+class TwitterHelper {
 
     /** Logic variables **/
     /** Any numbers 0-999 | The character string 'one' **/

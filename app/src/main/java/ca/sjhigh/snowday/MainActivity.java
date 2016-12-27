@@ -2,11 +2,13 @@ package ca.sjhigh.snowday;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Collections;
@@ -21,14 +23,19 @@ public class MainActivity extends AppCompatActivity {
 
     /** UI components **/
     private Button getTweets;
+    private Button editSettings;
     private Button viewDelays;
     private Button viewClosures;
+
+    private TextView userInfo;
 
     /** Logic variables **/
     private String user;
     // I want to have the app store all of the delays for the current day in a database. It will
     // delete all entries at the end of the day or individually if there is a correction tweet
     private DatabaseHelper myDatabase;
+    private final String MY_PREFERENCES = "my_preferences";
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +45,28 @@ public class MainActivity extends AppCompatActivity {
         user = "ASD_South";
         myDatabase = new DatabaseHelper(MainActivity.this);
 
+        // Prepare shared preferences
+        preferences = getSharedPreferences(MY_PREFERENCES, MODE_PRIVATE);
+
         // Marry UI components in XML to their corresponding Java variable
+        editSettings = (Button)findViewById(R.id.settings_main_button);
         getTweets = (Button)findViewById(R.id.twitter_main_button);
         viewDelays = (Button)findViewById(R.id.delays_main_button);
         viewClosures = (Button)findViewById(R.id.closures_main_button);
+        userInfo = (TextView)findViewById(R.id.personal_main_textView);
+
+        userInfo.setText("Current bus: " + preferences.getInt("key_busNumber", 0) +
+                        "\n\nCurrent pickup time: " + preferences.getString("key_pickupTime", "not set"));
 
         /** Add click listeners **/
+        editSettings.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                // Start EditInformation.class
+                Intent settings = new Intent(MainActivity.this, EditInformation.class);
+                startActivity(settings);
+            }
+        });
         getTweets.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -53,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         viewDelays.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // Send intent to BusDelays.class with database helper
+                // Start BusDelays.class
                 Intent delays = new Intent(MainActivity.this, BusDelays.class);
                 startActivity(delays);
             }
@@ -61,11 +84,19 @@ public class MainActivity extends AppCompatActivity {
         viewClosures.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // Send intent to SchoolClosures.class with database helper
+                // Start SchoolClosures.class
                 Intent closures = new Intent(MainActivity.this, SchoolClosures.class);
                 startActivity(closures);
             }
         });
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        preferences = getSharedPreferences(MY_PREFERENCES, MODE_PRIVATE);
+        userInfo.setText("Current bus: " + preferences.getInt("key_busNumber", 0) +
+                "\n\nCurrent pickup time: " + preferences.getString("key_pickupTime", "not set"));
     }
 
     /**

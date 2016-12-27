@@ -14,8 +14,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  *
  * If you don't know anything about databases then don't modify this file
  */
-
-public class DatabaseHelper extends SQLiteOpenHelper{
+class DatabaseHelper extends SQLiteOpenHelper{
 
     /* Database version */
     private static final int DATABASE_VERSION = 2;
