@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     // I want to have the app store all of the delays for the current day in a database. It will
     // delete all entries at the end of the day or individually if there is a correction tweet
     private DatabaseHelper myDatabase;
+    // I want to allow multiple buses to be added so I'll probably have to make a preference object
+    // and then store them in a List. The only problem will be naming the groups or the keys
     private final String MY_PREFERENCES = "my_preferences";
     private SharedPreferences preferences;
 
@@ -55,8 +57,10 @@ public class MainActivity extends AppCompatActivity {
         viewClosures = (Button)findViewById(R.id.closures_main_button);
         userInfo = (TextView)findViewById(R.id.personal_main_textView);
 
-        userInfo.setText("Current bus: " + preferences.getInt("key_busNumber", 0) +
-                        "\n\nCurrent pickup time: " + preferences.getString("key_pickupTime", "not set"));
+        int busNumber = preferences.getInt("key_busNumber", 0);
+        String pickupTime = preferences.getString("key_pickupTime", "not set");
+        userInfo.setText("Current bus: " + ((busNumber == 0)? "not set" : busNumber) +
+                        "\n\nCurrent pickup time: " + pickupTime);
 
         /** Add click listeners **/
         editSettings.setOnClickListener(new View.OnClickListener(){
@@ -95,8 +99,10 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         preferences = getSharedPreferences(MY_PREFERENCES, MODE_PRIVATE);
-        userInfo.setText("Current bus: " + preferences.getInt("key_busNumber", 0) +
-                "\n\nCurrent pickup time: " + preferences.getString("key_pickupTime", "not set"));
+        int busNumber = preferences.getInt("key_busNumber", 0);
+        String pickupTime = preferences.getString("key_pickupTime", "not set");
+        userInfo.setText("Current bus: " + ((busNumber == 0)? "not set" : busNumber) +
+                "\n\nCurrent pickup time: " + pickupTime);
     }
 
     /**
