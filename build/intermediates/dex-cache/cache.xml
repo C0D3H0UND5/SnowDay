@@ -115,7 +115,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
-        sha1="3531dc22e17d364741d940ed11df8584b1697bf2">
+        sha1="4defa720d1b216ada055b766504a94cd4e7dad70">
         <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_ff14c7c48f2101f094461b19a0b033c6f617020a\classes.dex" />
     </item>
     <item
@@ -133,7 +133,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
-        sha1="fe1ee1ae40f30531e92ddb883e2300e7c3829d6c">
+        sha1="5850333ee2a3516996cbed3c379f00f1e289407d">
         <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_27acdd84d6c3031f5b248f0c62829c79652d3a6b\classes.dex" />
     </item>
     <item

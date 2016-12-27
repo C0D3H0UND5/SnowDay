@@ -29,7 +29,7 @@ public class EditInformation extends AppCompatActivity {
         setContentView(R.layout.activity_edit_information);
 
         // Prepare shared preferences
-        preferences = getSharedPreferences(MY_PREFERENCES, MODE_PRIVATE);
+        preferences = getApplicationContext().getSharedPreferences(MY_PREFERENCES, MODE_PRIVATE);
         editor = preferences.edit();
 
         // Marry UI components in XML to their corresponding Java variable

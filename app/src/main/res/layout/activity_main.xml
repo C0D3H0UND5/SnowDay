@@ -29,14 +29,16 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
 
-    <Button
-        android:text="@string/get_tweets_button"
+    <TextView
+        android:text="@string/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/twitter_main_button"
-        android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true" />
+        android:id="@+id/personal_main_textView"
+        android:layout_above="@+id/delays_main_button"
+        android:layout_alignParentEnd="true"
+        android:textSize="18sp"
+        android:layout_below="@+id/greyhound_main_imageView" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -45,27 +47,6 @@
         android:id="@+id/greyhound_main_imageView"
         android:contentDescription="@string/credit_greyhound"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/twitter_main_button" />
-
-    <TextView
-        android:text="Use this space to show the user information about their bus(es) and school (Show if their school is involved in a tweet and if all schools are cancelled)"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:id="@+id/personal_main_textView"
-        android:layout_above="@+id/delays_main_button"
-        android:layout_alignParentEnd="true"
-        android:textSize="18sp"
-        android:layout_below="@+id/settings_main_button" />
-
-    <Button
-        android:text="@string/edit_information_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/twitter_main_button"
-        android:layout_alignParentStart="true"
-        android:id="@+id/settings_main_button"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

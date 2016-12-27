@@ -1,6 +1,7 @@
 <resources>
     <!-- UI strings -->
     <string name="app_name">Snow Day</string>
+    <string name="label">Label</string>
     <string name="get_tweets_button">Gather tweets from ASD_South</string>
     <string name="edit_information_button">Edit information</string>
     <string name="view_delays_button">View Delays</string>
@@ -10,6 +11,7 @@
     <string name="title_delays">Current Delays</string>
     <string name="title_closures">Current Closures</string>
     <string name="update_button">Update</string>
+    <string name="action_refresh">Refresh</string>
     <!-- Art credit -->
     <string name="credit_greyhound">Credit: Amy Dai</string>
     <!-- Twitter configuration -->
@@ -20,4 +22,9 @@
     <string name="success">Tweets successfully gathered</string>
     <string name="error">Error while searching tweets</string>
     <string name="searching">searching tweets</string>
+    <!-- I have no use for a string array yet but I want to keep the syntax in case I do down the road -->
+    <string-array name="test">
+        <item></item>
+        <item></item>
+    </string-array>
 </resources>

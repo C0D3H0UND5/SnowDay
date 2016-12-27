@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,11 +25,8 @@ import twitter4j.conf.ConfigurationBuilder;
 public class MainActivity extends AppCompatActivity {
 
     /** UI components **/
-    private Button getTweets;
-    private Button editSettings;
     private Button viewDelays;
     private Button viewClosures;
-
     private TextView userInfo;
 
     /** Logic variables **/
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseHelper myDatabase;
     // I want to allow multiple buses to be added so I'll probably have to make a preference object
     // and then store them in a List. The only problem will be naming the groups or the keys
-    private final String MY_PREFERENCES = "my_preferences";
+    private final String PREFERENCES_FILE_NAME = "my_preferences";
     private SharedPreferences preferences;
 
     @Override
@@ -48,11 +48,9 @@ public class MainActivity extends AppCompatActivity {
         myDatabase = new DatabaseHelper(MainActivity.this);
 
         // Prepare shared preferences
-        preferences = getSharedPreferences(MY_PREFERENCES, MODE_PRIVATE);
+        preferences = getApplicationContext().getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
 
         // Marry UI components in XML to their corresponding Java variable
-        editSettings = (Button)findViewById(R.id.settings_main_button);
-        getTweets = (Button)findViewById(R.id.twitter_main_button);
         viewDelays = (Button)findViewById(R.id.delays_main_button);
         viewClosures = (Button)findViewById(R.id.closures_main_button);
         userInfo = (TextView)findViewById(R.id.personal_main_textView);
@@ -63,20 +61,6 @@ public class MainActivity extends AppCompatActivity {
                         "\n\nCurrent pickup time: " + pickupTime);
 
         /** Add click listeners **/
-        editSettings.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                // Start EditInformation.class
-                Intent settings = new Intent(MainActivity.this, EditInformation.class);
-                startActivity(settings);
-            }
-        });
-        getTweets.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                new GetTweets().execute(user);
-            }
-        });
         viewDelays.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -95,14 +79,42 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Executes when focus is regained on this activity (i.e. returning from another activity)
+     */
     @Override
     public void onResume(){
         super.onResume();
-        preferences = getSharedPreferences(MY_PREFERENCES, MODE_PRIVATE);
+        preferences = getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
         int busNumber = preferences.getInt("key_busNumber", 0);
         String pickupTime = preferences.getString("key_pickupTime", "not set");
         userInfo.setText("Current bus: " + ((busNumber == 0)? "not set" : busNumber) +
                 "\n\nCurrent pickup time: " + pickupTime);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    /**
+     * Executes when an item in the actionbar is clicked
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.refresh_main_action:
+                new GetTweets().execute(user);
+                return true;
+            case R.id.settings_main_action:
+                Intent settings = new Intent(MainActivity.this, EditInformation.class);
+                startActivity(settings);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**

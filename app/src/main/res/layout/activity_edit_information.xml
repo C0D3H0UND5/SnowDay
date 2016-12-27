@@ -21,7 +21,7 @@
         android:layout_toStartOf="@+id/bus_settings_button"
         android:layout_alignBottom="@+id/bus_settings_button"
         android:textAlignment="viewStart"
-        android:hint="Have code manage this" />
+        android:hint="@string/label" />
 
     <Button
         android:text="@string/update_button"
@@ -41,7 +41,7 @@
         android:id="@+id/pickup_settings_editText"
         android:layout_toStartOf="@+id/bus_settings_button"
         android:layout_alignBottom="@+id/pickup_settings_button"
-        android:hint="Have code manage this" />
+        android:hint="@string/label" />
 
     <Button
         android:text="@string/update_button"
