@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class EditInformation extends AppCompatActivity {
+public class Settings extends AppCompatActivity {
 
     /** UI components **/
     private EditText bus;
@@ -26,7 +26,7 @@ public class EditInformation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_information);
+        setContentView(R.layout.activity_settings);
 
         // Prepare shared preferences
         preferences = getApplicationContext().getSharedPreferences(MY_PREFERENCES, MODE_PRIVATE);

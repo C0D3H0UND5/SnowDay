@@ -11,7 +11,6 @@ public class SchoolClosures extends AppCompatActivity {
 
     /** UI components **/
     private Button clearList;
-    private Button deleteAll;
     private TextView tweetList;
 
     /** Logic variables **/
@@ -26,7 +25,6 @@ public class SchoolClosures extends AppCompatActivity {
 
         // Marry UI components in XML to their corresponding Java variable
         clearList = (Button)findViewById(R.id.clear_closures_button);
-        deleteAll = (Button)findViewById(R.id.delete_closures_button);
         tweetList = (TextView)findViewById(R.id.tweets_closures_textView);
 
         // Set TextView to be scrollable
@@ -36,17 +34,10 @@ public class SchoolClosures extends AppCompatActivity {
         clearList.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                tweetList.setText(null);
-            }
-        });
-        deleteAll.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
                 deleteRecords();
                 tweetList.setText(null);
             }
         });
-
         displayRecords();
     }
 

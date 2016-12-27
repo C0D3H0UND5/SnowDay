@@ -11,7 +11,6 @@ public class BusDelays extends AppCompatActivity {
 
     /** UI components **/
     private Button clearList;
-    private Button deleteAll;
     private TextView tweetList;
 
     /** Logic variables **/
@@ -26,7 +25,6 @@ public class BusDelays extends AppCompatActivity {
 
         // Marry UI components in XML to their corresponding Java variable
         clearList = (Button)findViewById(R.id.clear_delays_button);
-        deleteAll = (Button)findViewById(R.id.delete_delays_button);
         tweetList = (TextView)findViewById(R.id.tweets_delays_textView);
 
         // Set TextView to be scrollable
@@ -36,17 +34,10 @@ public class BusDelays extends AppCompatActivity {
         clearList.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                tweetList.setText(null);
-            }
-        });
-        deleteAll.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
                 deleteRecords();
                 tweetList.setText(null);
             }
         });
-
         displayRecords();
     }
 

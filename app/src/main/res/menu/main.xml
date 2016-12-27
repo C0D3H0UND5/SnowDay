@@ -4,7 +4,7 @@
     <!-- Test button -->
     <item
         android:id="@+id/refresh_main_action"
-        android:title="@string/action_refresh"
+        android:title="@string/get_tweets_button"
         android:orderInCategory="100"
         android:icon="@mipmap/ic_refresh_white"
         app:showAsAction="ifRoom"/>
