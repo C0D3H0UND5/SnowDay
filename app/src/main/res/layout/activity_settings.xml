@@ -64,8 +64,8 @@
         android:text="Reset tweet position"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:id="@+id/reset_settings_button"
+        android:layout_above="@+id/clear_settings_button"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
 
@@ -73,7 +73,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/district_settings_spinner"
-        android:layout_above="@+id/reset_settings_button"
-        android:layout_alignParentStart="true"
-        android:entries="@array/district_array" />
+        android:entries="@array/district_array"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/district_settings_spinner"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/interval_settings_spinner"
+        android:entries="@array/interval_array" />
+
 </RelativeLayout>

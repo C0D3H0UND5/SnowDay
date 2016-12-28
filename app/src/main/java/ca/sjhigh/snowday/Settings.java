@@ -4,8 +4,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Settings extends AppCompatActivity {
 
@@ -16,10 +21,14 @@ public class Settings extends AppCompatActivity {
     private Button getPickup;
     private Button clearPreferences;
     private Button resetTweet;
+    private Spinner refreshInterval;
 
     /** Logic variables **/
     private int busNumber;
     private String pickupTime;
+    private String spinnerMessage;
+    private Pattern PATTERN  = Pattern.compile("\\d+|Never");
+    private Matcher matcher;
     private final String MY_PREFERENCES = "my_preferences";
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
@@ -40,6 +49,7 @@ public class Settings extends AppCompatActivity {
         getPickup = (Button)findViewById(R.id.pickup_settings_button);
         clearPreferences = (Button)findViewById(R.id.clear_settings_button);
         resetTweet = (Button)findViewById(R.id.reset_settings_button);
+        refreshInterval = (Spinner)findViewById(R.id.interval_settings_spinner);
 
         bus.setHint("Bus currently: " + preferences.getInt("key_busNumber", 0));
         pickup.setHint("Pickup time currently: " + preferences.getString("key_pickupTime", "not set"));
@@ -84,6 +94,27 @@ public class Settings extends AppCompatActivity {
                 editor.remove("key_tweetId");
                 editor.apply();
             }
+        });
+        refreshInterval.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                spinnerMessage = refreshInterval.getSelectedItem().toString();
+                matcher = PATTERN.matcher(spinnerMessage);
+                while(matcher.find()){
+                    if(matcher.group().equals("Never")){
+                        editor.putInt("key_interval", 0);
+                    }
+                    else{
+                        editor.putInt("key_interval", Integer.valueOf(matcher.group()));
+                    }
+                    System.out.println("Interval: " + matcher.group());
+                    editor.apply();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {}
         });
     }
 }

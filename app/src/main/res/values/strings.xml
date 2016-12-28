@@ -3,9 +3,17 @@
     <string name="app_name">Snow Day</string>
     <string name="label">Label</string>
     <string-array name="district_array">
+        <item>Choose your district</item>
         <item>ASD-South</item>
         <item>ASD-West</item>
         <item>Others to be added</item>
+    </string-array>
+    <string-array name="interval_array">
+        <item>Select the refresh interval</item>
+        <item>Never</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>60 minutes</item>
     </string-array>
     <!-- Activity titles-->
     <string name="title_closures">Current Closures</string>
