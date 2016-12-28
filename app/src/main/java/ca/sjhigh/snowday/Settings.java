@@ -15,6 +15,7 @@ public class Settings extends AppCompatActivity {
     private Button getBus;
     private Button getPickup;
     private Button clearPreferences;
+    private Button resetTweet;
 
     /** Logic variables **/
     private int busNumber;
@@ -38,6 +39,7 @@ public class Settings extends AppCompatActivity {
         getBus = (Button)findViewById(R.id.bus_settings_button);
         getPickup = (Button)findViewById(R.id.pickup_settings_button);
         clearPreferences = (Button)findViewById(R.id.clear_settings_button);
+        resetTweet = (Button)findViewById(R.id.reset_settings_button);
 
         bus.setHint("Bus currently: " + preferences.getInt("key_busNumber", 0));
         pickup.setHint("Pickup time currently: " + preferences.getString("key_pickupTime", "not set"));
@@ -74,6 +76,13 @@ public class Settings extends AppCompatActivity {
                 editor.apply();
                 bus.setHint("Bus currently not set");
                 pickup.setHint("Pickup time currently not set");
+            }
+        });
+        resetTweet.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                editor.remove("key_tweetId");
+                editor.apply();
             }
         });
     }

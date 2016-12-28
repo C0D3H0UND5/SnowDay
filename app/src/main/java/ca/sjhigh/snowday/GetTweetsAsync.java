@@ -2,12 +2,14 @@ package ca.sjhigh.snowday;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
 
+import twitter4j.Paging;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.OAuth2Token;
@@ -25,14 +27,18 @@ public class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
 
     private Context context;
     private DatabaseHelper databaseHelper;
+    private SharedPreferences preferences;
+
+    private long tweetId;
 
     private final int SUCCESS = 0;
     private final int FAILURE = SUCCESS + 1;
     private ProgressDialog dialog;
 
-    public GetTweetsAsync(Context context, DatabaseHelper databaseHelper){
+    public GetTweetsAsync(Context context, DatabaseHelper databaseHelper, SharedPreferences preferences){
         this.context = context;
         this.databaseHelper = databaseHelper;
+        this.preferences = preferences;
         dialog = new ProgressDialog(context);
         dialog.setMessage(context.getString(R.string.searching));
         dialog.setCancelable(true);
@@ -69,12 +75,21 @@ public class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
             // List<twitter4j.Status> tweets = result.getTweets();
 
             // Gets the tweets from newest to oldest
-            List<twitter4j.Status> tweets = twitter.getUserTimeline(params[0]);
+            tweetId = preferences.getLong("key_tweetId", 1);
+            List<twitter4j.Status> tweets = twitter.getUserTimeline(params[0], new Paging().sinceId(tweetId));
+            // The first tweet is the latest so it will be stored as the most recently checked
+            if(tweets.size() > 0){
+                // System.out.println("Putting in shared preferences: " + tweets.get(0).getId());
+                preferences.edit().putLong("key_tweetId", tweets.get(0).getId()).apply();
+                // System.out.println(tweets.size());
+
+            }
             // Changes the tweet order to be oldest to newest
             Collections.reverse(tweets);
-            if(tweets != null){
+            if(tweets.size() > 0){
                 for(twitter4j.Status tweet : tweets){
                     TwitterHelper.storeTweet(tweet, databaseHelper);
+                    System.out.println(tweet.getId());
                 }
                 return SUCCESS;
             }

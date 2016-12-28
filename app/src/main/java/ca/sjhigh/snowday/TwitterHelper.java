@@ -27,7 +27,7 @@ class TwitterHelper {
      * @param delay The time in minutes that the bus is delayed
      * @return The new arrival time of the bus
      */
-    private static String addTime(String time, int delay){
+    public static String addTime(String time, int delay){
         String[] split = time.split(":");
         int hour = Integer.valueOf(split[0]);
         int minute = Integer.valueOf(split[1]);

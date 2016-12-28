@@ -2,16 +2,22 @@
     <!-- UI strings -->
     <string name="app_name">Snow Day</string>
     <string name="label">Label</string>
-    <string name="get_tweets_button">Gather tweets from ASD_South</string>
+    <string-array name="district_array">
+        <item>ASD-South</item>
+        <item>ASD-West</item>
+        <item>Others to be added</item>
+    </string-array>
+    <!-- Activity titles-->
+    <string name="title_closures">Current Closures</string>
+    <string name="title_delays">Current Delays</string>
+    <string name="title_settings">Settings</string>
+    <!-- Buttons -->
+    <string name="get_tweets_button">Gather tweets</string>
     <string name="view_delays_button">View Delays</string>
     <string name="view_closures_button">View Closures</string>
     <string name="clear_button">Clear</string>
     <string name="delete_all_button">Delete All</string>
-    <string name="title_delays">Current Delays</string>
-    <string name="title_closures">Current Closures</string>
-    <string name="title_settings">Settings</string>
     <string name="update_button">Update</string>
-    <string name="action_refresh">Refresh</string>
     <!-- Art credit -->
     <string name="credit_greyhound">Credit: Amy Dai</string>
     <!-- Twitter configuration -->
@@ -22,9 +28,4 @@
     <string name="success">Tweets successfully gathered</string>
     <string name="error">Error while searching tweets</string>
     <string name="searching">Searching tweets…</string>
-    <!-- I have no use for a string array yet but I want to keep the syntax in case I do down the road -->
-    <string-array name="test">
-        <item></item>
-        <item></item>
-    </string-array>
 </resources>

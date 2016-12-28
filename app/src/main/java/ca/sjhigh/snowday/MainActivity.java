@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** Logic variables **/
     private String user;
+    private long tweetId;
     // I want to have the app store all of the delays for the current day in a database. It will
     // delete all entries at the end of the day or individually if there is a correction tweet
     private DatabaseHelper myDatabase;
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         user = "ASD_South";
+        // user = "ASD_West";
+        // ASD-W structures their tweets differently so in order to support that this would require
+        // a filter overhaul
         myDatabase = new DatabaseHelper(MainActivity.this);
 
         // Prepare shared preferences
@@ -46,8 +50,11 @@ public class MainActivity extends AppCompatActivity {
 
         int busNumber = preferences.getInt("key_busNumber", 0);
         String pickupTime = preferences.getString("key_pickupTime", "not set");
-        userInfo.setText("Current bus: " + ((busNumber == 0)? "not set" : busNumber) +
-                        "\n\nCurrent pickup time: " + pickupTime);
+        userInfo.setText(
+                "Current bus: " + ((busNumber == 0)? "not set" : busNumber) +
+                "\n\nCurrent pickup time: " + pickupTime + "\n\nExpected pickup time: " +
+                (pickupTime.equals("not set")? "not availabale" :
+                TwitterHelper.addTime(pickupTime, myDatabase.retrieveDelay(busNumber).getDelay())));
 
         /** Add click listeners **/
         viewDelays.setOnClickListener(new View.OnClickListener(){
@@ -77,8 +84,11 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
         int busNumber = preferences.getInt("key_busNumber", 0);
         String pickupTime = preferences.getString("key_pickupTime", "not set");
-        userInfo.setText("Current bus: " + ((busNumber == 0)? "not set" : busNumber) +
-                "\n\nCurrent pickup time: " + pickupTime);
+        userInfo.setText(
+                "Current bus: " + ((busNumber == 0)? "not set" : busNumber) +
+                "\n\nCurrent pickup time: " + pickupTime + "\n\nExpected pickup time: " +
+                (pickupTime.equals("not set")? "not availabale" :
+                TwitterHelper.addTime(pickupTime, myDatabase.retrieveDelay(busNumber).getDelay())));
     }
 
     @Override
@@ -95,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.refresh_main_action:
-                new GetTweetsAsync(MainActivity.this, myDatabase).execute(user);
+                new GetTweetsAsync(MainActivity.this, myDatabase, preferences).execute(user);
+                userInfo.setText(String.valueOf(preferences.getLong("key_tweetId", 1)));
                 return true;
             case R.id.settings_main_action:
                 Intent settings = new Intent(MainActivity.this, Settings.class);
