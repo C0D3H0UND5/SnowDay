@@ -12,16 +12,8 @@ Enter description here
 
 # Screenshots
 
-Main Screen
--
-![alt tag](http://i.imgur.com/Y28TDeV.png "Welcome screen")
-
-Delayed buses screen
--
-![alt tag](http://i.imgur.com/SMTlIDC.png "Delayed buses screen")
-![alt tag](http://i.imgur.com/MwQwCXW.png "Delayed buses screen with information")
-
-Closures screen
--
-![alt tag](http://i.imgur.com/OypxOVK.png "School closure screen")
-![alt tag](http://i.imgur.com/jLIRUAq.png "School closure screen with information")
+|**Main screen**|**Settings**|
+|---|---|
+|![](http://i.imgur.com/qAR9zSo.png)|![](http://i.imgur.com/1ZSw2Gy.png)|
+|**School closures**|**Bus delays**|
+|![](http://i.imgur.com/ifBdJ4T.png)|![](http://i.imgur.com/3h2uDNe.png)|
