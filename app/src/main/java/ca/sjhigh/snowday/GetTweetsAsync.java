@@ -23,7 +23,7 @@ import twitter4j.conf.ConfigurationBuilder;
  *
  */
 
-public class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
+class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
 
     private Context context;
     private DatabaseHelper databaseHelper;
@@ -91,6 +91,9 @@ public class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
                     TwitterHelper.storeTweet(tweet, databaseHelper);
                     System.out.println(tweet.getId());
                 }
+                return SUCCESS;
+            }
+            else {
                 return SUCCESS;
             }
         }

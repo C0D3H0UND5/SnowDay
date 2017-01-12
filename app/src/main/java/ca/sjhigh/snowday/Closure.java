@@ -6,7 +6,7 @@ package ca.sjhigh.snowday;
  * This class contains the information for any tweets containing closures
  */
 
-public class Closure {
+class Closure {
 
     private String text;
     private String date;

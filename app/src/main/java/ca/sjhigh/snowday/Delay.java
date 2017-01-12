@@ -7,7 +7,7 @@ package ca.sjhigh.snowday;
  * of the app that need that information
  */
 
-public class Delay {
+class Delay {
 
     /** Logic variables **/
     private int busNumber;

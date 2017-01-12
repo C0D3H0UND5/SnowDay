@@ -145,9 +145,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
-            case R.id.refresh_main_action:
-                new GetTweetsAsync(MainActivity.this, myDatabase, preferences).execute(user);
-                return true;
+            //case R.id.refresh_main_action:
+            //    new GetTweetsAsync(MainActivity.this, myDatabase, preferences).execute(user);
+            //    return true;
             case R.id.settings_main_action:
                 Intent settings = new Intent(MainActivity.this, Settings.class);
                 startActivity(settings);

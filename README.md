@@ -1,11 +1,9 @@
 # SnowDay
 
-This project will use [Semantic Versioning](http://semver.org/)
-
-Project currently on version 1.0.0
+Enter description here
 
 # App capabilities:
--
+
 - Pull tweets from a specified Twitter user
 
 - Filter information out of tweets (Currently pulls numbers but Regex can get anything)
@@ -13,7 +11,7 @@ Project currently on version 1.0.0
 - Store information about delayed buses in database and retrieve it
 
 # Screenshots
--
+
 Main Screen
 -
 ![alt tag](http://i.imgur.com/Y28TDeV.png "Welcome screen")

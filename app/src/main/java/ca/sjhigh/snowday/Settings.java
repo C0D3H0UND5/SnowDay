@@ -17,8 +17,8 @@ public class Settings extends AppCompatActivity {
     /** UI components **/
     private EditText bus;
     private EditText pickup;
-    private Button getBus;
-    private Button getPickup;
+    private Button setBus;
+    private Button setPickup;
     private Button clearPreferences;
     private Button resetTweet;
     private Spinner refreshInterval;
@@ -45,8 +45,8 @@ public class Settings extends AppCompatActivity {
         // Marry UI components in XML to their corresponding Java variable
         bus = (EditText)findViewById(R.id.bus_settings_editText);
         pickup = (EditText) findViewById(R.id.pickup_settings_editText);
-        getBus = (Button)findViewById(R.id.bus_settings_button);
-        getPickup = (Button)findViewById(R.id.pickup_settings_button);
+        setBus = (Button)findViewById(R.id.bus_settings_button);
+        setPickup = (Button)findViewById(R.id.pickup_settings_button);
         clearPreferences = (Button)findViewById(R.id.clear_settings_button);
         resetTweet = (Button)findViewById(R.id.reset_settings_button);
         refreshInterval = (Spinner)findViewById(R.id.interval_settings_spinner);
@@ -55,28 +55,49 @@ public class Settings extends AppCompatActivity {
         pickup.setHint("Pickup time currently: " + preferences.getString("key_pickupTime", "not set"));
 
         /** Add click listeners **/
-        getBus.setOnClickListener(new View.OnClickListener(){
+        setBus.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // Store in shared preferences
-                busNumber = Integer.valueOf(bus.getText().toString());
-                editor.putInt("key_busNumber", busNumber);
-                editor.apply();
-                // Clear and update
-                bus.setText("");
-                bus.setHint("Bus now: " + busNumber);
+                try{
+                    // Store in shared preferences
+                    busNumber = Integer.valueOf(bus.getText().toString());
+                    editor.putInt("key_busNumber", busNumber);
+                    editor.apply();
+                }
+                catch(NumberFormatException e){
+                    bus.setError("Must enter a numeric value");
+                    editor.putInt("key_busNumber", 0);
+                    editor.apply();
+                }
+                finally{
+                    // Clear and update
+                    bus.setText("");
+                    bus.setHint("Bus now: " + busNumber);
+                }
             }
         });
-        getPickup.setOnClickListener(new View.OnClickListener(){
+        setPickup.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // Store in shared preferences
-                pickupTime = pickup.getText().toString();
-                editor.putString("key_pickupTime", pickupTime);
-                editor.apply();
-                // Clear and update
-                pickup.setText("");
-                pickup.setHint("Pickup time now: " + pickupTime);
+                try{
+                    // Store in shared preferences
+                    pickupTime = pickup.getText().toString();
+                    // if(validTime(pickupTime){}
+                    editor.putString("key_pickupTime", pickupTime);
+                    editor.apply();
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                    // I'll add a check sometime
+                    pickup.setError("Invalid time");
+                    editor.putString("key_pickupTime", "not set");
+                    editor.apply();
+                }
+                finally{
+                    // Clear and update
+                    pickup.setText("");
+                    pickup.setHint("Pickup time now: " + pickupTime);
+                }
             }
         });
         clearPreferences.setOnClickListener(new View.OnClickListener(){

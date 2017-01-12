@@ -1,9 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- Refresh button -->
+    <item
+        android:id="@+id/refresh_child_action"
+        android:title="@string/get_tweets_button"
+        android:orderInCategory="100"
+        android:icon="@mipmap/ic_refresh_white"
+        app:showAsAction="ifRoom"/>
+
     <!-- Settings -->
     <item
-        android:id="@+id/settings_main_action"
+        android:id="@+id/settings_child_action"
         android:title="@string/action_settings"
         android:orderInCategory="100"
         android:icon="@mipmap/ic_settings_white"
