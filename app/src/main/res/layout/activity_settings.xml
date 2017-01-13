@@ -85,4 +85,23 @@
         android:id="@+id/interval_settings_spinner"
         android:entries="@array/interval_array" />
 
+    <ToggleButton
+        android:text="Run in background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backgroundService_settings_toggleButton"
+        android:layout_below="@+id/pickup_settings_editText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backgroundService_settings_textView"
+        android:text="Background task status"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:layout_below="@+id/backgroundService_settings_toggleButton"
+        android:layout_toStartOf="@+id/pickup_settings_button" />
+
 </RelativeLayout>

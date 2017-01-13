@@ -15,6 +15,13 @@
         <item>30 minutes</item>
         <item>60 minutes</item>
     </string-array>
+    <!-- Notifications -->
+    <string name="delay_notification_title">New Delay(s)</string>
+    <string name="delay_notification_body">Click to view all delayed buses</string>
+    <string name="delay_notification_ticker">New delayed bus(es)</string>
+    <string name="closure_notification_title">New Closure(s)</string>
+    <string name="closure_notification_body">Click to view all closures</string>
+    <string name="closure_notification_ticker">New closure(s)</string>
     <!-- Activity titles-->
     <string name="title_closures">Current Closures</string>
     <string name="title_delays">Current Delays</string>

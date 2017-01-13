@@ -33,6 +33,10 @@ class DatabaseHelper extends SQLiteOpenHelper{
     /** Closure table **/
     private static final String KEY_TEXT = "Closure_Tweet";
 
+    /** Logic Variables **/
+    private int latestDelay = 0;
+    private int latestClosure = 0;
+
     /**
      * Instantiates a new database helper object
      * @param context The activity accessing this database
@@ -95,7 +99,7 @@ class DatabaseHelper extends SQLiteOpenHelper{
      * @return Whether or not the update operation succeeded
      */
     public boolean updateDelay(Delay delay){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_NUMBER, delay.getBusNumber());
         values.put(KEY_DELAY, delay.getDelay());
@@ -112,7 +116,7 @@ class DatabaseHelper extends SQLiteOpenHelper{
      * @return Delay object containing delay information
      */
     public Delay retrieveDelay(int busNumber){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_DELAY + " WHERE " + KEY_NUMBER + " = ?";
         String[] selectionArguments = {String.valueOf(busNumber)};
         Cursor cursor = db.rawQuery(query, selectionArguments);
@@ -133,7 +137,7 @@ class DatabaseHelper extends SQLiteOpenHelper{
      * @return All of the delays as Delay objects
      */
     public Delay[] retrieveDelays(){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_DELAY, null);
         int count = cursor.getCount();
         Delay[] delayList = new Delay[count];
@@ -157,7 +161,7 @@ class DatabaseHelper extends SQLiteOpenHelper{
      * @return All of the closures as Closure objects
      */
     public Closure[] retrieveClosures(){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CLOSURE, null);
         int count = cursor.getCount();
         Closure[] closureList = new Closure[count];
@@ -212,7 +216,7 @@ class DatabaseHelper extends SQLiteOpenHelper{
      * @return If the value is already stored
      */
     public boolean isDelayStored(int busNumber){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_DELAY + " WHERE " + KEY_NUMBER + " = ?";
         String[] selectionArguments = {String.valueOf(busNumber)};
         Cursor cursor = db.rawQuery(query, selectionArguments);
@@ -227,13 +231,37 @@ class DatabaseHelper extends SQLiteOpenHelper{
      * @return If the value is already stored
      */
     public boolean isClosureStored(String text){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_CLOSURE + " WHERE " + KEY_TEXT + " = ?";
         String[] selectionArguments = {text};
         Cursor cursor = db.rawQuery(query, selectionArguments);
         int count = cursor.getCount();
         cursor.close();
         return count > 0;
+    }
+
+    /**
+     * Returns the number of delays that have been recognized by the user
+     * @return the value of latestDelay
+     */
+    public int getLatestDelay() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_DELAY;
+        int temp = latestDelay;
+        latestDelay = db.rawQuery(query, null).getCount();
+        return temp;
+    }
+
+    /**
+     * Returns the number of closures that have been recognized by the user
+     * @return the value of latestClosure
+     */
+    public int getLatestClosure() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_CLOSURE;
+        int temp = latestClosure;
+        latestClosure = db.rawQuery(query, null).getCount();
+        return temp;
     }
 }
 

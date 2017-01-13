@@ -3,7 +3,6 @@ package ca.sjhigh.snowday;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private final String PREFERENCES_FILE_NAME = "my_preferences";
     private SharedPreferences preferences;
     // Task repeat interval, in minutes
-    private int UPDATE_INTERVAL;
-    private final int MINUTES_TO_MILLISECONDS = 60000;
-    private Handler taskHandler;
-    private Runnable taskStatusChecker;
+    //private int UPDATE_INTERVAL;
+    //private final int MINUTES_TO_MILLISECONDS = 60000;
+    //private Handler taskHandler;
+    //private Runnable taskStatusChecker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
         preferences = getApplicationContext().getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
         myDatabase = new DatabaseHelper(MainActivity.this);
 
-        UPDATE_INTERVAL = preferences.getInt("key_interval", 15)*MINUTES_TO_MILLISECONDS;
+        // Turn this into a service
+        /*UPDATE_INTERVAL = preferences.getInt("key_interval", 15)*MINUTES_TO_MILLISECONDS;
         taskHandler = new Handler();
         taskStatusChecker = new Runnable() {
             @Override
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     taskHandler.postDelayed(this, UPDATE_INTERVAL);
                 }
             }
-        };
+        };*/
 
         // Marry UI components in XML to their corresponding Java variable
         viewDelays = (Button)findViewById(R.id.delays_main_button);
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        startRepeatingTask();
+        //startRepeatingTask();
     }
 
     /**
@@ -109,14 +109,14 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         preferences = getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
-        UPDATE_INTERVAL = preferences.getInt("key_interval", 15)*MINUTES_TO_MILLISECONDS;
+        /*UPDATE_INTERVAL = preferences.getInt("key_interval", 15)*MINUTES_TO_MILLISECONDS;
         if(UPDATE_INTERVAL == 0) {
             stopRepeatingTask();
         }
         else {
             startRepeatingTask();
         }
-        System.out.println("Interval -> " + UPDATE_INTERVAL/MINUTES_TO_MILLISECONDS);
+        System.out.println("Interval -> " + UPDATE_INTERVAL/MINUTES_TO_MILLISECONDS);*/
         int busNumber = preferences.getInt("key_busNumber", 0);
         String pickupTime = preferences.getString("key_pickupTime", "not set");
         userInfo.setText(
@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        stopRepeatingTask();
+        //stopRepeatingTask();
     }
 
     @Override
@@ -159,15 +159,15 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Starts the periodical update routine (taskStatusChecker adds the callback to the handler).
-     */
+     *
     public synchronized void startRepeatingTask(){
         taskStatusChecker.run();
-    }
+    }*/
 
     /**
      * Stops the periodical update routine from running, by removing the callback.
-     */
+     *
     public synchronized void stopRepeatingTask(){
         taskHandler.removeCallbacks(taskStatusChecker);
-    }
+    }*/
 }

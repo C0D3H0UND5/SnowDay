@@ -29,8 +29,11 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
     private DatabaseHelper databaseHelper;
     private SharedPreferences preferences;
 
-    private long tweetId;
+    private NotificationHelper newDelays;
+    private NotificationHelper newClosures;
 
+    private final int DELAY_NOTIFICATION_ID = 1;
+    private final int CLOSURE_NOTIFICATION_ID = 2;
     private final int SUCCESS = 0;
     private final int FAILURE = SUCCESS + 1;
     private ProgressDialog dialog;
@@ -42,6 +45,15 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
         dialog = new ProgressDialog(context);
         dialog.setMessage(context.getString(R.string.searching));
         dialog.setCancelable(true);
+
+        newDelays = new NotificationHelper(context, BusDelays.class,
+                context.getString(R.string.delay_notification_ticker),
+                context.getString(R.string.delay_notification_title),
+                context.getString(R.string.delay_notification_body), DELAY_NOTIFICATION_ID);
+        newClosures = new NotificationHelper(context, SchoolClosures.class,
+                context.getString(R.string.closure_notification_ticker),
+                context.getString(R.string.closure_notification_title),
+                context.getString(R.string.closure_notification_body), CLOSURE_NOTIFICATION_ID);
     }
 
     @Override
@@ -75,7 +87,7 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
             // List<twitter4j.Status> tweets = result.getTweets();
 
             // Gets the tweets from newest to oldest
-            tweetId = preferences.getLong("key_tweetId", 1);
+            long tweetId = preferences.getLong("key_tweetId", 1);
             List<twitter4j.Status> tweets = twitter.getUserTimeline(params[0], new Paging().sinceId(tweetId));
             // The first tweet is the latest so it will be stored as the most recently checked
             if(tweets.size() > 0){
@@ -91,11 +103,8 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
                     TwitterHelper.storeTweet(tweet, databaseHelper);
                     System.out.println(tweet.getId());
                 }
-                return SUCCESS;
             }
-            else {
-                return SUCCESS;
-            }
+            return SUCCESS;
         }
         catch(Exception e){
             e.printStackTrace();
@@ -110,6 +119,10 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
         if(result == SUCCESS){
             Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show();
             // dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.success));
+            if(databaseHelper.retrieveDelays().length > databaseHelper.getLatestDelay())
+                newDelays.displayNotification();
+            if(databaseHelper.retrieveClosures().length > databaseHelper.getLatestClosure())
+                newClosures.displayNotification();
         }
         else{
             Toast.makeText(context, context.getString(R.string.error), Toast.LENGTH_LONG).show();

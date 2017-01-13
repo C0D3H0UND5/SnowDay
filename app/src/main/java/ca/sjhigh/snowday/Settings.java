@@ -1,13 +1,16 @@
 package ca.sjhigh.snowday;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.ToggleButton;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +25,7 @@ public class Settings extends AppCompatActivity {
     private Button clearPreferences;
     private Button resetTweet;
     private Spinner refreshInterval;
+    private ToggleButton backgroundService;
 
     /** Logic variables **/
     private int busNumber;
@@ -32,6 +36,7 @@ public class Settings extends AppCompatActivity {
     private final String MY_PREFERENCES = "my_preferences";
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    private Intent tweetServiceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class Settings extends AppCompatActivity {
         clearPreferences = (Button)findViewById(R.id.clear_settings_button);
         resetTweet = (Button)findViewById(R.id.reset_settings_button);
         refreshInterval = (Spinner)findViewById(R.id.interval_settings_spinner);
+        backgroundService = (ToggleButton)findViewById(R.id.backgroundService_settings_toggleButton);
 
         bus.setHint("Bus currently: " + preferences.getInt("key_busNumber", 0));
         pickup.setHint("Pickup time currently: " + preferences.getString("key_pickupTime", "not set"));
@@ -136,6 +142,22 @@ public class Settings extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {}
+        });
+        backgroundService.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (backgroundService.isChecked()){
+                    // Turn on service
+                    String data = "";
+                    tweetServiceIntent = new Intent(getApplicationContext(), PullTweetsService.class);
+                    startService(tweetServiceIntent);
+                }
+                else{
+                    // Turn off service
+                    tweetServiceIntent = new Intent(getApplicationContext(), PullTweetsService.class);
+                    stopService(tweetServiceIntent);
+                }
+            }
         });
     }
 }
