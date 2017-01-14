@@ -18,9 +18,10 @@
             android:description="@string/service_description">
         </service>
 
+        <!-- ToDo make the service start when device boots up
         <receiver android:name=".StartupReceiver">
             <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-        </receiver>
+        </receiver> -->
 
         <activity
             android:name=".MainActivity"

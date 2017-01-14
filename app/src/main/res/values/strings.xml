@@ -36,6 +36,9 @@
     <string name="clear_button">Clear</string>
     <string name="delete_all_button">Delete All</string>
     <string name="update_button">Update</string>
+    <string name="reset_settings_button">Reset Settings</string>
+    <!-- Text fields -->
+    <string name="background_service_text">Enable automatic tweet collection:</string>
     <!-- Art credit -->
     <string name="credit_greyhound">Credit: Amy Dai</string>
     <!-- Twitter configuration -->

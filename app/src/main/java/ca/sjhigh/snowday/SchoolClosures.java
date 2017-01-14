@@ -56,8 +56,13 @@ public class SchoolClosures extends AppCompatActivity {
     private void displayRecords(){
         String string = "";
         Closure[] closures = myDatabase.retrieveClosures();
-        for(Closure closure : closures){
-            string += closure.toString() + "\n\n";
+        if (closures.length > 0) {
+            for (Closure closure : closures) {
+                string += closure.toString() + "\n\n";
+            }
+        }
+        else{
+            string = "No new closures";
         }
         tweetList.setText(string);
     }

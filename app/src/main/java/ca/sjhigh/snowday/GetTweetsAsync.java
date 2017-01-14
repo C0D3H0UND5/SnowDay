@@ -119,14 +119,16 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
             Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show();
             // dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.success));
             if(databaseHelper.retrieveDelays().length > databaseHelper.getLatestDelay()){
-                newDelays.displayNotification();
                 databaseHelper.setLatestDelay(databaseHelper.retrieveDelays().length);
                 TwitterHelper.cullDelays(databaseHelper);
+                if(databaseHelper.retrieveDelays().length > 0)
+                    newDelays.displayNotification();
             }
             if(databaseHelper.retrieveClosures().length > databaseHelper.getLatestClosure()){
-                newClosures.displayNotification();
                 databaseHelper.setLatestClosure(databaseHelper.retrieveClosures().length);
                 TwitterHelper.cullClosures(databaseHelper);
+                if(databaseHelper.retrieveClosures().length > 0)
+                    newClosures.displayNotification();
             }
         }
         else{

@@ -57,8 +57,13 @@ public class BusDelays extends AppCompatActivity {
     private void displayRecords(){
         String string = "";
         Delay[] delays = myDatabase.retrieveDelays();
-        for(Delay delay : delays){
-            string += delay.toString() + "\n\n";
+        if (delays.length > 0){
+            for(Delay delay : delays){
+                string += delay.toString() + "\n\n";
+            }
+        }
+        else{
+            string = "No new delays";
         }
         tweetList.setText(string);
     }

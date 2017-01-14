@@ -23,8 +23,8 @@ public class Settings extends AppCompatActivity {
     private Button setBus;
     private Button setPickup;
     private Button clearPreferences;
-    private Button resetTweet;
     private Spinner refreshInterval;
+    private Spinner selectDistrict;
     private ToggleButton backgroundService;
 
     /** Logic variables **/
@@ -53,9 +53,9 @@ public class Settings extends AppCompatActivity {
         pickup = (EditText) findViewById(R.id.pickup_settings_editText);
         setBus = (Button)findViewById(R.id.bus_settings_button);
         setPickup = (Button)findViewById(R.id.pickup_settings_button);
-        clearPreferences = (Button)findViewById(R.id.clear_settings_button);
-        resetTweet = (Button)findViewById(R.id.reset_settings_button);
+        clearPreferences = (Button)findViewById(R.id.default_settings_button);
         refreshInterval = (Spinner)findViewById(R.id.interval_settings_spinner);
+        selectDistrict = (Spinner)findViewById(R.id.district_settings_spinner);
         backgroundService = (ToggleButton)findViewById(R.id.backgroundService_settings_toggleButton);
 
         bus.setHint("Bus currently: " + preferences.getInt("key_busNumber", 0));
@@ -112,13 +112,6 @@ public class Settings extends AppCompatActivity {
                 pickup.setHint("Pickup time currently not set");
             }
         });
-        resetTweet.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                editor.remove("key_tweetId");
-                editor.apply();
-            }
-        });
         refreshInterval.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -155,5 +148,49 @@ public class Settings extends AppCompatActivity {
                 }
             }
         });
+
+        // For debug
+        /*Button main = (Button)findViewById(R.id.mainNotification);
+        Button delay = (Button)findViewById(R.id.delayNotification);
+        Button closure = (Button)findViewById(R.id.closureNotification);
+        Button resetTweet = (Button)findViewById(R.id.reset_settings_button);
+
+        main.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                new NotificationHelper(getApplicationContext(), MainActivity.class,
+                        getApplicationContext().getString(R.string.delay_notification_ticker),
+                        getApplicationContext().getString(R.string.delay_notification_title),
+                        getApplicationContext().getString(R.string.delay_notification_body), 3)
+                        .displayNotification();
+            }
+        });
+        delay.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                new NotificationHelper(getApplicationContext(), BusDelays.class,
+                        getApplicationContext().getString(R.string.delay_notification_ticker),
+                        getApplicationContext().getString(R.string.delay_notification_title),
+                        getApplicationContext().getString(R.string.delay_notification_body), 4)
+                        .displayNotification();
+            }
+        });
+        closure.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                new NotificationHelper(getApplicationContext(), SchoolClosures.class,
+                        getApplicationContext().getString(R.string.delay_notification_ticker),
+                        getApplicationContext().getString(R.string.delay_notification_title),
+                        getApplicationContext().getString(R.string.delay_notification_body), 5)
+                        .displayNotification();
+            }
+        });
+        resetTweet.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                editor.remove("key_tweetId");
+                editor.apply();
+            }
+        });*/
     }
 }

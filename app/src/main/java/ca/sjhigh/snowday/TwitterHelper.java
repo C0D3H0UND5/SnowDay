@@ -20,6 +20,12 @@ class TwitterHelper {
     /** Logic variables **/
     /** Any numbers 0-999 | The character string 'one' **/
     private static final Pattern PATTERN = Pattern.compile("\\d+|one");
+    // Regex used to properly get tweets from ASD-South
+    private static final Pattern southDelayPattern = Pattern.compile("");
+    private static final Pattern southClosurePattern = Pattern.compile("");
+    // Regex used to properly get tweets from ASD-West
+    private static final Pattern westDelayPattern = Pattern.compile("");
+    private static final Pattern westClosurePattern = Pattern.compile("");
     private static Matcher matcher;
 
     /**
