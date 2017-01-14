@@ -9,6 +9,8 @@ import android.support.v4.app.NotificationCompat;
 
 /**
  * Created by Jason on 2017-01-12.
+ *
+ * This class pushes a notification to the system using the passed parameters
  */
 
 class NotificationHelper {

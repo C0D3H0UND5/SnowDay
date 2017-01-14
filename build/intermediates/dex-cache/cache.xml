@@ -12,15 +12,6 @@
     </item>
     <item
         is-multidex="true"
-        jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
-        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-24.2.1_3ebc00cf658ecde459190fa56b4c5e002111c2c6\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\24.2.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
@@ -36,6 +27,69 @@
         revision="24.0.1"
         sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
         <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_ea10bbfa26e8d73170fe34e98aa98319a6c26437\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-24.2.1_042d3e5727f93c2c49eca2c2c28eabb621723947\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Jason\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.2.1\support-annotations-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.2.1_fdde6be9adcad34299e70ab16d957541feb6a227\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="272f9e5d4bb6fff4cd2314bae06b8fee21b020cb">
+        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_ff14c7c48f2101f094461b19a0b033c6f617020a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_3e94213450b1209c69ffe7d933b2518795a9e81a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.2.1_0ba3dea38b56e99857c075f6e21c39b5aabc7633\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidStudioProjects\SnowDay\app\libs\twitter4j-core-4.0.4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="f4ac5989c7be37249dfe310bf78ba69773ebce2d">
+        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\2\twitter4j-core-4.0.4_71374cfc4cacc5c11c7f613e9dea7635d1b5125c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-compat-24.2.1_3ebc00cf658ecde459190fa56b4c5e002111c2c6\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -75,30 +129,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
-        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-core-ui-24.2.1_042d3e5727f93c2c49eca2c2c28eabb621723947\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\24.2.1\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
         sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
         <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-24.2.1_1ffa3978121ad70e39796f237f85c429e82a4a48\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Jason\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\24.2.1\support-annotations-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
-        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-24.2.1_fdde6be9adcad34299e70ab16d957541feb6a227\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -111,29 +147,11 @@
     </item>
     <item
         is-multidex="true"
-        jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="989546d862c1a573ae0b93fc65ec1dd3808162fd">
-        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_ff14c7c48f2101f094461b19a0b033c6f617020a\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
-        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_3e94213450b1209c69ffe7d933b2518795a9e81a\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.1"
-        sha1="86f3ed6c634307af81011d716d9ad5568a8ffb65">
+        sha1="de2965804f413228191ae74fabf0e46543882fc6">
         <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_27acdd84d6c3031f5b248f0c62829c79652d3a6b\classes.dex" />
     </item>
     <item
@@ -144,24 +162,6 @@
         revision="24.0.1"
         sha1="867dad63c33388ff8c7644b236579355036d075f">
         <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.1_8f490082e86a43d07630907abb3071ec3665ba64\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\24.2.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
-        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-24.2.1_0ba3dea38b56e99857c075f6e21c39b5aabc7633\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="D:\AndroidStudioProjects\SnowDay\app\libs\twitter4j-core-4.0.4.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.1"
-        sha1="f4ac5989c7be37249dfe310bf78ba69773ebce2d">
-        <dex dex="D:\AndroidStudioProjects\SnowDay\app\build\intermediates\transforms\dex\debug\folders\1000\2\twitter4j-core-4.0.4_71374cfc4cacc5c11c7f613e9dea7635d1b5125c\classes.dex" />
     </item>
 
 </items>

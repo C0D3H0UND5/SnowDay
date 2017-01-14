@@ -31,7 +31,8 @@ public class Settings extends AppCompatActivity {
     private int busNumber;
     private String pickupTime;
     private String spinnerMessage;
-    private Pattern PATTERN  = Pattern.compile("\\d+|Never");
+    private Pattern timePattern = Pattern.compile("(\\d\\d?):(\\d\\d)");
+    private Pattern intervalPattern  = Pattern.compile("\\d+|Never");
     private Matcher matcher;
     private final String MY_PREFERENCES = "my_preferences";
     private SharedPreferences preferences;
@@ -71,38 +72,34 @@ public class Settings extends AppCompatActivity {
                     editor.apply();
                 }
                 catch(NumberFormatException e){
+                    // Clear and raise error, don't update
+                    bus.setText("");
                     bus.setError("Must enter a numeric value");
-                    editor.putInt("key_busNumber", 0);
-                    editor.apply();
                 }
                 finally{
                     // Clear and update
                     bus.setText("");
-                    bus.setHint("Bus now: " + busNumber);
+                    bus.setHint("Bus currently: " + busNumber);
                 }
             }
         });
         setPickup.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                try{
+                pickupTime = pickup.getText().toString();
+                // Use regex to validate pickup time
+                if (timePattern.matcher(pickupTime).find()) {
                     // Store in shared preferences
-                    pickupTime = pickup.getText().toString();
-                    // if(validTime(pickupTime){}
                     editor.putString("key_pickupTime", pickupTime);
                     editor.apply();
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                    // I'll add a check sometime
-                    pickup.setError("Invalid time");
-                    editor.putString("key_pickupTime", "not set");
-                    editor.apply();
-                }
-                finally{
                     // Clear and update
                     pickup.setText("");
-                    pickup.setHint("Pickup time now: " + pickupTime);
+                    pickup.setHint("Pickup time currently: " + pickupTime);
+                }
+                else {
+                    // Clear and raise error, don't update
+                    bus.setText("");
+                    pickup.setError("Please enter a valid time");
                 }
             }
         });
@@ -127,7 +124,7 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 spinnerMessage = refreshInterval.getSelectedItem().toString();
-                matcher = PATTERN.matcher(spinnerMessage);
+                matcher = intervalPattern.matcher(spinnerMessage);
                 while(matcher.find()){
                     if(matcher.group().equals("Never")){
                         editor.putInt("key_interval", 0);
@@ -145,10 +142,9 @@ public class Settings extends AppCompatActivity {
         });
         backgroundService.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (backgroundService.isChecked()){
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked){
                     // Turn on service
-                    String data = "";
                     tweetServiceIntent = new Intent(getApplicationContext(), PullTweetsService.class);
                     startService(tweetServiceIntent);
                 }

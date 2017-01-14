@@ -15,6 +15,9 @@
         <item>30 minutes</item>
         <item>60 minutes</item>
     </string-array>
+    <!-- Services -->
+    <string name="service_label">Snowday background tweet gatherer</string>
+    <string name="service_description">Insert description here</string>
     <!-- Notifications -->
     <string name="delay_notification_title">New Delay(s)</string>
     <string name="delay_notification_body">Click to view all delayed buses</string>

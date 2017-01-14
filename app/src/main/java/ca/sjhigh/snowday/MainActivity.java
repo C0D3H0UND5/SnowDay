@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * ToDo add background service to gather tweets. Make it optional to start on system startup
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     /** UI components **/

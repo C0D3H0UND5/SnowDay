@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 /**
  * Created by Jason on 2017-01-11.
+ *
+ * This app is hopefully going to be used to start the tweet retrieval service on device startup
  */
 
 public class StartupReceiver extends BroadcastReceiver {
