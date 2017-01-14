@@ -215,6 +215,20 @@ class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Deletes the record of the specified closure
+     * @param text A snippet of the closure tweet to find record with
+     */
+    public boolean deleteClosure(String text){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String whereClause = KEY_TEXT + " LIKE ?";
+        String[] whereArgs = {text};
+        long result = db.delete(TABLE_CLOSURE, whereClause, whereArgs);
+        db.close();
+        latestDelay--;
+        return result != -1;
+    }
+
+    /**
      * Deletes all the delays in the database (I want to modify it to drop any that aren't from the current day
      */
     public void deleteAllDelays(){

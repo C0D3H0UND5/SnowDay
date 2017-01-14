@@ -55,6 +55,32 @@ class TwitterHelper {
     }
 
     /**
+     * Removes any tweets that are not from the current day
+     * ToDO Modify this to remove delays after the bus should arrive
+     */
+    public static void cullDelays(DatabaseHelper myDatabase){
+        Delay[] delays = myDatabase.retrieveDelays();
+        String day = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        for (Delay delay : delays) {
+            if(!delay.getDate().substring(0, 2).equals(day)){
+                myDatabase.deleteDelay(delay.getBusNumber());
+            }
+        }
+    }
+    /**
+     * Removes any tweets that are not from the current day
+     */
+    public static void cullClosures(DatabaseHelper myDatabase){
+        Closure[] closures = myDatabase.retrieveClosures();
+        String day = String.valueOf(Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        for (Closure closure : closures) {
+            if(!closure.getDate().substring(0, 2).equals(day)){
+                myDatabase.deleteClosure(closure.getText().substring(2,11));
+            }
+        }
+    }
+
+    /**
      * Analyzes tweet and stores it in the database if it contains a late bus or a closure.
      * If a delay record contains a correction then it will delete the corresponding delay
      * @param status The status(tweet) from Twitter
