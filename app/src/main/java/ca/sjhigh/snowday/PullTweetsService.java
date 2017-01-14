@@ -2,6 +2,7 @@ package ca.sjhigh.snowday;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.widget.Toast;
 
@@ -19,11 +20,10 @@ public class PullTweetsService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Toast.makeText(this, "Service started by user.", Toast.LENGTH_SHORT).show();
-        new NotificationHelper(this, BusDelays.class,
-                this.getString(R.string.delay_notification_ticker),
-                this.getString(R.string.delay_notification_title),
-                this.getString(R.string.delay_notification_body), 7)
-                .displayNotification();
+        SharedPreferences preferences = getApplicationContext()
+                .getSharedPreferences("my_preferences", MODE_PRIVATE);
+        new GetTweetsAsync(this, DatabaseHelper.getSingletonInstance(this), preferences)
+                .execute(preferences.getString("key_district", "ASD_South"));
         return Service.START_STICKY;
     }
 

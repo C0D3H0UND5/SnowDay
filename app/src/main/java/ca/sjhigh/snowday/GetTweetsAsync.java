@@ -59,7 +59,7 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        dialog.show();
+        //dialog.show();
     }
 
     @Override
@@ -114,7 +114,7 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
     @Override
     protected void onPostExecute(Integer result){
         super.onPostExecute(result);
-        dialog.dismiss();
+        //dialog.dismiss();
         if(result == SUCCESS){
             Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show();
             // dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.success));
