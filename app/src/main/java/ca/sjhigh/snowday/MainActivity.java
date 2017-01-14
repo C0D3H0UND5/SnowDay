@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     // I want to allow multiple buses to be added so I'll probably have to make a preference object
     // and then store them in a List. The only problem will be naming the groups or the keys
     private final String PREFERENCES_FILE_NAME = "my_preferences";
+    private final String DATABASE_POSITION_FILE_NAME = "database_files";
     private SharedPreferences preferences;
     // Task repeat interval, in minutes
     //private int UPDATE_INTERVAL;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Prepare shared preferences
         preferences = getApplicationContext().getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
-        myDatabase = new DatabaseHelper(MainActivity.this);
+        myDatabase = DatabaseHelper.getSingletonInstance(MainActivity.this);
 
         // Turn this into a service
         /*UPDATE_INTERVAL = preferences.getInt("key_interval", 15)*MINUTES_TO_MILLISECONDS;
@@ -130,6 +131,11 @@ public class MainActivity extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
         //stopRepeatingTask();
+        getApplicationContext().getSharedPreferences(DATABASE_POSITION_FILE_NAME, MODE_PRIVATE)
+                .edit()
+                .putInt("key_delay", myDatabase.getLatestDelay())
+                .putInt("key_closure", myDatabase.getLatestClosure())
+                .apply();
     }
 
     @Override

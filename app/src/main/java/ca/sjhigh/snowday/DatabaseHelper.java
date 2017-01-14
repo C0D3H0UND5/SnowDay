@@ -2,6 +2,7 @@ package ca.sjhigh.snowday;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -37,12 +38,31 @@ class DatabaseHelper extends SQLiteOpenHelper{
     private int latestDelay = 0;
     private int latestClosure = 0;
 
+    /** Singleton instance **/
+    private static DatabaseHelper helperInstance;
+
     /**
-     * Instantiates a new database helper object
-     * @param context The activity accessing this database
+     * Creates a new DatabaseHelper object
+     * @param context The activity context
      */
-    public DatabaseHelper(Context context){
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        String PREFERENCES_FILE_NAME = "database_files";
+        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+        latestDelay = preferences.getInt("key_delay", 0);
+        latestClosure = preferences.getInt("key_closure", 0);
+    }
+
+    /**
+     * Provides a Singleton instance of DatabaseHelper
+     * @param context The activity context requesting the helper
+     * @return a singleton instance of the database helper
+     */
+    public static synchronized DatabaseHelper getSingletonInstance(Context context){
+        if(helperInstance == null) {
+            helperInstance = new DatabaseHelper(context);
+        }
+        return helperInstance;
     }
 
     @Override
@@ -109,7 +129,6 @@ class DatabaseHelper extends SQLiteOpenHelper{
         return result != -1;
     }
 
-    // This will get used when the information for the user's buses is collected and processed
     /**
      * Returns the information regarding a certain bus delay
      * @param busNumber The bus number to get the delay of
@@ -138,7 +157,8 @@ class DatabaseHelper extends SQLiteOpenHelper{
      */
     public Delay[] retrieveDelays(){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_DELAY, null);
+        String query = "SELECT * FROM " + TABLE_DELAY + " ORDER BY " + KEY_DATE + " DESC";
+        Cursor cursor = db.rawQuery(query, null);
         int count = cursor.getCount();
         Delay[] delayList = new Delay[count];
         if(cursor.moveToFirst()) {
@@ -162,7 +182,8 @@ class DatabaseHelper extends SQLiteOpenHelper{
      */
     public Closure[] retrieveClosures(){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CLOSURE, null);
+        String query = "SELECT * FROM " + TABLE_CLOSURE + " ORDER BY " + KEY_DATE + " ASC";
+        Cursor cursor = db.rawQuery(query, null);
         int count = cursor.getCount();
         Closure[] closureList = new Closure[count];
         if(cursor.moveToFirst()) {
@@ -189,6 +210,7 @@ class DatabaseHelper extends SQLiteOpenHelper{
         String[] whereArgs = {String.valueOf(busNumber)};
         long result = db.delete(TABLE_DELAY, whereClause, whereArgs);
         db.close();
+        latestDelay--;
         return result != -1;
     }
 
@@ -199,6 +221,7 @@ class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_DELAY, null, null);
         db.close();
+        latestDelay = 0;
     }
 
     /**
@@ -208,6 +231,7 @@ class DatabaseHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CLOSURE, null, null);
         db.close();
+        latestClosure = 0;
     }
 
     /**
@@ -241,15 +265,27 @@ class DatabaseHelper extends SQLiteOpenHelper{
     }
 
     /**
+     * Sets the value of the number of delays that have been displayed and viewed by the user
+     * @param count The numeber of delays seen by the user
+     */
+    public void setLatestDelay(int count){
+        this.latestDelay = count;
+    }
+
+    /**
+     * Sets the value of the number of closures that have been displayed and viewed by the user
+     * @param count The number of closures viewed by the user
+     */
+    public void setLatestClosure(int count){
+        this.latestClosure = count;
+    }
+
+    /**
      * Returns the number of delays that have been recognized by the user
      * @return the value of latestDelay
      */
     public int getLatestDelay() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_DELAY;
-        int temp = latestDelay;
-        latestDelay = db.rawQuery(query, null).getCount();
-        return temp;
+        return latestDelay;
     }
 
     /**
@@ -257,11 +293,7 @@ class DatabaseHelper extends SQLiteOpenHelper{
      * @return the value of latestClosure
      */
     public int getLatestClosure() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_CLOSURE;
-        int temp = latestClosure;
-        latestClosure = db.rawQuery(query, null).getCount();
-        return temp;
+        return latestClosure;
     }
 }
 

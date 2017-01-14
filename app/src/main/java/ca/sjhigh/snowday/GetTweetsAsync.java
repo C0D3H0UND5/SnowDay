@@ -101,7 +101,6 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
             if(tweets.size() > 0){
                 for(twitter4j.Status tweet : tweets){
                     TwitterHelper.storeTweet(tweet, databaseHelper);
-                    System.out.println(tweet.getId());
                 }
             }
             return SUCCESS;
@@ -119,10 +118,18 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
         if(result == SUCCESS){
             Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show();
             // dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.success));
-            if(databaseHelper.retrieveDelays().length > databaseHelper.getLatestDelay())
+            System.out.println(databaseHelper.getLatestDelay());
+            System.out.println(databaseHelper.retrieveDelays().length);
+            System.out.println(databaseHelper.getLatestClosure());
+            System.out.println(databaseHelper.retrieveClosures().length);
+            if(databaseHelper.retrieveDelays().length > databaseHelper.getLatestDelay()){
                 newDelays.displayNotification();
-            if(databaseHelper.retrieveClosures().length > databaseHelper.getLatestClosure())
+                databaseHelper.setLatestDelay(databaseHelper.retrieveDelays().length);
+            }
+            if(databaseHelper.retrieveClosures().length > databaseHelper.getLatestClosure()){
                 newClosures.displayNotification();
+                databaseHelper.setLatestClosure(databaseHelper.retrieveClosures().length);
+            }
         }
         else{
             Toast.makeText(context, context.getString(R.string.error), Toast.LENGTH_LONG).show();

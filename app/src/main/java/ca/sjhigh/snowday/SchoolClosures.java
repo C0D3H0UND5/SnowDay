@@ -30,7 +30,7 @@ public class SchoolClosures extends AppCompatActivity {
 
         // Prepare shared preferences
         preferences = getApplicationContext().getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
-        myDatabase = new DatabaseHelper(SchoolClosures.this);
+        myDatabase = DatabaseHelper.getSingletonInstance(SchoolClosures.this);
 
         // Marry UI components in XML to their corresponding Java variable
         clearList = (Button)findViewById(R.id.clear_closures_button);

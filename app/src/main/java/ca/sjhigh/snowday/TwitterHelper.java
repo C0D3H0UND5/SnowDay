@@ -12,6 +12,7 @@ import twitter4j.Status;
  * Created by Jason on 2016-12-20.
  *
  * This class will likely contain the code to parse incoming tweets
+ * ToDo - Fix this shit to optimize regex statements
  */
 
 class TwitterHelper {
@@ -66,6 +67,8 @@ class TwitterHelper {
         String text = status.getText().toLowerCase();
 
         // What if all buses are running on a delay (i.e. buses run one hour delay in bad weather)
+        // What if a bus isn't running at all? (GitHub issue)
+        // What if students are being dismissed but no close statement in tweet? (GitHub issue)
         // What if ...
 
         // If the tweet contains 'clos' or 'cancel' then it means there is a closure
