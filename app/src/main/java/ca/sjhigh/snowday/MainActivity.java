@@ -26,17 +26,15 @@ public class MainActivity extends AppCompatActivity {
     private String user;
     // I want to have the app store all of the delays for the current day in a database. It will
     // delete all entries at the end of the day or individually if there is a correction tweet
+    //
+    // ^ This is working except it executes when the tweets are updated. Tis should be fine since
+    // The task will be run repeatedly
     private DatabaseHelper myDatabase;
     // I want to allow multiple buses to be added so I'll probably have to make a preference object
     // and then store them in a List. The only problem will be naming the groups or the keys
     private final String PREFERENCES_FILE_NAME = "my_preferences";
     private final String DATABASE_POSITION_FILE_NAME = "database_files";
     private SharedPreferences preferences;
-    // Task repeat interval, in minutes
-    //private int UPDATE_INTERVAL;
-    //private final int MINUTES_TO_MILLISECONDS = 60000;
-    //private Handler taskHandler;
-    //private Runnable taskStatusChecker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,27 +49,6 @@ public class MainActivity extends AppCompatActivity {
         // Prepare shared preferences
         preferences = getApplicationContext().getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
         myDatabase = DatabaseHelper.getSingletonInstance(MainActivity.this);
-
-        // Turn this into a service
-        /*UPDATE_INTERVAL = preferences.getInt("key_interval", 15)*MINUTES_TO_MILLISECONDS;
-        taskHandler = new Handler();
-        taskStatusChecker = new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    // Run the repeated task
-                    System.out.println("Running task every " + UPDATE_INTERVAL/MINUTES_TO_MILLISECONDS + " minutes");
-                    new GetTweetsAsync(MainActivity.this, myDatabase, preferences).execute(user);
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
-                finally{
-                    // Re-run task after the update interval
-                    taskHandler.postDelayed(this, UPDATE_INTERVAL);
-                }
-            }
-        };*/
 
         // Marry UI components in XML to their corresponding Java variable
         viewDelays = (Button)findViewById(R.id.delays_main_button);
@@ -103,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(closures);
             }
         });
-
-        //startRepeatingTask();
     }
 
     /**
@@ -114,14 +89,6 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         preferences = getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
-        /*UPDATE_INTERVAL = preferences.getInt("key_interval", 15)*MINUTES_TO_MILLISECONDS;
-        if(UPDATE_INTERVAL == 0) {
-            stopRepeatingTask();
-        }
-        else {
-            startRepeatingTask();
-        }
-        System.out.println("Interval -> " + UPDATE_INTERVAL/MINUTES_TO_MILLISECONDS);*/
         int busNumber = preferences.getInt("key_busNumber", 0);
         String pickupTime = preferences.getString("key_pickupTime", "not set");
         userInfo.setText(
@@ -131,10 +98,12 @@ public class MainActivity extends AppCompatActivity {
                 TwitterHelper.addTime(pickupTime, myDatabase.retrieveDelay(busNumber).getDelay())));
     }
 
+    /**
+     * Executes when the app is closed permanently
+     */
     @Override
     public void onDestroy(){
         super.onDestroy();
-        //stopRepeatingTask();
         getApplicationContext().getSharedPreferences(DATABASE_POSITION_FILE_NAME, MODE_PRIVATE)
                 .edit()
                 .putInt("key_delay", myDatabase.getLatestDelay())
@@ -155,9 +124,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
-            //case R.id.refresh_main_action:
-            //    new GetTweetsAsync(MainActivity.this, myDatabase, preferences).execute(user);
-            //    return true;
             case R.id.settings_main_action:
                 Intent settings = new Intent(MainActivity.this, Settings.class);
                 startActivity(settings);
@@ -166,18 +132,4 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    /**
-     * Starts the periodical update routine (taskStatusChecker adds the callback to the handler).
-     *
-    public synchronized void startRepeatingTask(){
-        taskStatusChecker.run();
-    }*/
-
-    /**
-     * Stops the periodical update routine from running, by removing the callback.
-     *
-    public synchronized void stopRepeatingTask(){
-        taskHandler.removeCallbacks(taskStatusChecker);
-    }*/
 }

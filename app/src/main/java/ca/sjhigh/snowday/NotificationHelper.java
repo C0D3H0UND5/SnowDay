@@ -27,8 +27,8 @@ class NotificationHelper {
     private Intent intent;
     private PendingIntent pendingIntent;
 
-    public NotificationHelper(Context context, Class c, String title, String body, String ticker,
-                              int notificationId) {
+    NotificationHelper(Context context, Class c, String title, String body, String ticker,
+                       int notificationId) {
         this.context = context;
         this.c = c;
         this.title = title;
@@ -39,7 +39,7 @@ class NotificationHelper {
 
     public void displayNotification() {
         try{
-            intent = new Intent(context, BusDelays.class);
+            intent = new Intent(context, c);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             notificationManager = (NotificationManager) context
                     .getSystemService(Context.NOTIFICATION_SERVICE);
