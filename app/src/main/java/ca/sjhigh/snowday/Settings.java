@@ -150,47 +150,13 @@ public class Settings extends AppCompatActivity {
         });
 
         // For debug
-        /*Button main = (Button)findViewById(R.id.mainNotification);
-        Button delay = (Button)findViewById(R.id.delayNotification);
-        Button closure = (Button)findViewById(R.id.closureNotification);
         Button resetTweet = (Button)findViewById(R.id.reset_settings_button);
-
-        main.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                new NotificationHelper(getApplicationContext(), MainActivity.class,
-                        getApplicationContext().getString(R.string.delay_notification_ticker),
-                        getApplicationContext().getString(R.string.delay_notification_title),
-                        getApplicationContext().getString(R.string.delay_notification_body), 3)
-                        .displayNotification();
-            }
-        });
-        delay.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                new NotificationHelper(getApplicationContext(), BusDelays.class,
-                        getApplicationContext().getString(R.string.delay_notification_ticker),
-                        getApplicationContext().getString(R.string.delay_notification_title),
-                        getApplicationContext().getString(R.string.delay_notification_body), 4)
-                        .displayNotification();
-            }
-        });
-        closure.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                new NotificationHelper(getApplicationContext(), SchoolClosures.class,
-                        getApplicationContext().getString(R.string.delay_notification_ticker),
-                        getApplicationContext().getString(R.string.delay_notification_title),
-                        getApplicationContext().getString(R.string.delay_notification_body), 5)
-                        .displayNotification();
-            }
-        });
         resetTweet.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 editor.remove("key_tweetId");
                 editor.apply();
             }
-        });*/
+        });
     }
 }

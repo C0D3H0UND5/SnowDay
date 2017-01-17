@@ -48,6 +48,9 @@ class Delay {
 
     @Override
     public String toString() {
-        return date + " - Bus " + busNumber + " is running " + ((time > 0) ? (time + " minutes late") : ("on time now"));
+        if(time == 24)
+            return date + " - Bus " + busNumber + " is not running today";
+        else
+            return date + " - Bus " + busNumber + " is running " + ((time > 0) ? (time + " minutes late") : ("on time now"));
     }
 }

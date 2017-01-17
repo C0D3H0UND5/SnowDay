@@ -47,13 +47,13 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
         dialog.setCancelable(true);
 
         newDelays = new NotificationHelper(context, BusDelays.class,
-                context.getString(R.string.delay_notification_ticker),
                 context.getString(R.string.delay_notification_title),
-                context.getString(R.string.delay_notification_body), DELAY_NOTIFICATION_ID);
+                context.getString(R.string.delay_notification_body),
+                context.getString(R.string.delay_notification_ticker), DELAY_NOTIFICATION_ID);
         newClosures = new NotificationHelper(context, SchoolClosures.class,
-                context.getString(R.string.closure_notification_ticker),
                 context.getString(R.string.closure_notification_title),
-                context.getString(R.string.closure_notification_body), CLOSURE_NOTIFICATION_ID);
+                context.getString(R.string.closure_notification_body),
+                context.getString(R.string.closure_notification_ticker), CLOSURE_NOTIFICATION_ID);
     }
 
     @Override

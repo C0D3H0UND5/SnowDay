@@ -1,6 +1,5 @@
 package ca.sjhigh.snowday;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -19,14 +18,16 @@ class TwitterHelper {
 
     /** Logic variables **/
     /** Any numbers 0-999 | The character string 'one' **/
-    private static final Pattern PATTERN = Pattern.compile("\\d+|one");
+    private static final Pattern busPattern = Pattern.compile("bus");
+    private static final Pattern closurePattern = Pattern.compile("clos");
+    private static final Pattern lateDelayPattern = Pattern.compile("late|delay");
     // Regex used to properly get tweets from ASD-South
-    private static final Pattern southDelayPattern = Pattern.compile("");
+    private static final Pattern southBusPattern = Pattern.compile("\\d+");
+    private static final Pattern southDelayPattern = Pattern.compile("\\s(\\d\\d?|one)\\s");
     private static final Pattern southClosurePattern = Pattern.compile("");
     // Regex used to properly get tweets from ASD-West
     private static final Pattern westDelayPattern = Pattern.compile("");
     private static final Pattern westClosurePattern = Pattern.compile("");
-    private static Matcher matcher;
 
     /**
      * Takes in a HH:MM string and adds the delay time in minutes
@@ -93,8 +94,6 @@ class TwitterHelper {
      * @param myDatabase the DatabaseHelper object to allow database access
      */
     public static void storeTweet(Status status, DatabaseHelper myDatabase){
-        ArrayList<Integer> numbers = new ArrayList<>();
-
         // Gets the body of the tweet
         String text = status.getText().toLowerCase();
 
@@ -114,34 +113,59 @@ class TwitterHelper {
             }
         }
         // If the tweet contains bus then the bus is either late or being corrected as on time
-        if(text.contains("bus")){
-            matcher = PATTERN.matcher(text);
+        if(busPattern.matcher(text).find()){
             // If the tweet contains 'late' or 'delay' then a bus is running late, add to database
-            if(text.contains("late") || text.contains("delay")){
-                while(matcher.find()){
-                    // If the delay is equal to one hour, change to 60 minutes
-                    int value = (matcher.group().equals("one") || matcher.group().equals("1"))? 60 : Integer.valueOf(matcher.group());
-                    numbers.add(value);
-                }
-                int number = numbers.get(0);
-                int time = numbers.get(1);
+            if(lateDelayPattern.matcher(text).find()){
+                System.out.println(text);
+                /* Get bus number */
+                Matcher busMatcher = southBusPattern.matcher(text);
+                busMatcher.find();
+                int number = Integer.valueOf(busMatcher.group());
+                /* Get delay time */
+                Matcher delayMatcher = southDelayPattern.matcher(text);
+                delayMatcher.find();
+                String time = delayMatcher.group();
+                time = time.substring(1, time.length()-1);
+                // Convert to an integer
+                int intTime = (time.equals("one") || time.equals("1"))? 60 : Integer.valueOf(time);
+                /* Get date */
                 String date = getDate(status.getCreatedAt());
-                Delay delay = new Delay(number, time, date);
 
-                if(myDatabase.isDelayStored(numbers.get(0))){
+                System.out.println("'" + number + "'");
+                System.out.println("'" + time + "'");
+
+                /* Add to database */
+                Delay delay = new Delay(number, intTime, date);
+                if(myDatabase.isDelayStored(number)){
                     myDatabase.updateDelay(delay);
                 }
-                else{
+                else {
                     myDatabase.insertDelay(delay);
                 }
-                numbers.clear();
             }
             // If the tweet contains 'on time' then the bus is back on time, remove from database
-            else if(text.contains("on time")){
-                while(matcher.find()){
-                    numbers.add(Integer.valueOf(matcher.group()));
+            else if(closurePattern.matcher(text).find()){
+                Matcher busMatcher = southBusPattern.matcher(text);
+                int number = Integer.valueOf(busMatcher.group());
+                myDatabase.deleteDelay(number);
+            }
+            // If the tweet contains a bus and not a delay or correction then it must not be running
+            else {
+                /* Get bus number */
+                Matcher busMatcher = southBusPattern.matcher(text);
+                busMatcher.find();
+                int number = Integer.valueOf(busMatcher.group());
+                System.out.println("Bus " + number + " isn't running today");
+                /* Get date */
+                String date = getDate(status.getCreatedAt());
+                /* Add to database */
+                Delay delay = new Delay(number, 24, date);
+                if(myDatabase.isDelayStored(number)){
+                    myDatabase.updateDelay(delay);
                 }
-                myDatabase.deleteDelay(numbers.get(0));
+                else {
+                    myDatabase.insertDelay(delay);
+                }
             }
         }
     }

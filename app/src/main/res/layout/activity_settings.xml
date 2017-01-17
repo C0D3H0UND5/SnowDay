@@ -76,13 +76,6 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true" />
 
-    <ToggleButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/backgroundService_settings_toggleButton"
-        android:layout_above="@+id/default_settings_button"
-        android:layout_centerHorizontal="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -90,9 +83,25 @@
         android:text="@string/background_service_text"
         android:textSize="18sp"
         android:textAlignment="center"
+        android:layout_above="@+id/backgroundService_settings_toggleButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="@string/tweet_position_settings_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/reset_settings_button"
         android:layout_above="@+id/default_settings_button"
-        android:layout_marginBottom="45dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true" />
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/backgroundService_settings_toggleButton"
+        android:layout_marginBottom="49dp"
+        android:layout_above="@+id/reset_settings_button"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
