@@ -38,7 +38,7 @@ public class PullTweetsService extends Service {
                  .getSharedPreferences("my_preferences", MODE_PRIVATE);
 
         // Get interval in milliseconds
-        UPDATE_INTERVAL = 30000;//preferences.getInt("key_interval", 0)*MINUTES_TO_MILLISECONDS;
+        UPDATE_INTERVAL = preferences.getInt("key_interval", 0)*MINUTES_TO_MILLISECONDS;
 
         taskHandler = new Handler();
         runnable = new Runnable() {
