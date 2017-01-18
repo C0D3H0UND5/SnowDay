@@ -7,10 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.ToggleButton;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,9 +21,10 @@ public class Settings extends AppCompatActivity {
     private Button setBus;
     private Button setPickup;
     private Button clearPreferences;
+    private Button startService;
+    private Button endService;
     private Spinner refreshInterval;
     private Spinner selectDistrict;
-    private ToggleButton backgroundService;
 
     /** Logic variables **/
     private int busNumber;
@@ -56,7 +55,8 @@ public class Settings extends AppCompatActivity {
         clearPreferences = (Button)findViewById(R.id.default_settings_button);
         refreshInterval = (Spinner)findViewById(R.id.interval_settings_spinner);
         selectDistrict = (Spinner)findViewById(R.id.district_settings_spinner);
-        backgroundService = (ToggleButton)findViewById(R.id.backgroundService_settings_toggleButton);
+        startService = (Button)findViewById(R.id.serviceStart_settings_button);
+        endService = (Button)findViewById(R.id.serviceEnd_settings_button);
 
         bus.setHint("Bus currently: " + preferences.getInt("key_busNumber", 0));
         pickup.setHint("Pickup time currently: " + preferences.getString("key_pickupTime", "not set"));
@@ -133,19 +133,20 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {}
         });
-        backgroundService.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        startService.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked){
-                    // Turn on service
-                    tweetServiceIntent = new Intent(getApplicationContext(), PullTweetsService.class);
-                    startService(tweetServiceIntent);
-                }
-                else{
-                    // Turn off service
-                    tweetServiceIntent = new Intent(getApplicationContext(), PullTweetsService.class);
-                    stopService(tweetServiceIntent);
-                }
+            public void onClick(View view){
+                // Turn on service
+                tweetServiceIntent = new Intent(getBaseContext(), PullTweetsService.class);
+                startService(tweetServiceIntent);
+            }
+        });
+        endService.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                // Turn off service
+                tweetServiceIntent = new Intent(getBaseContext(), PullTweetsService.class);
+                stopService(tweetServiceIntent);
             }
         });
 

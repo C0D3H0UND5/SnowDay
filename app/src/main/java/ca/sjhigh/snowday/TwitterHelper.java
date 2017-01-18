@@ -26,8 +26,8 @@ class TwitterHelper {
     private static final Pattern southDelayPattern = Pattern.compile("\\s(\\d\\d?|one)\\s");
     private static final Pattern southClosurePattern = Pattern.compile("");
     // Regex used to properly get tweets from ASD-West
-    private static final Pattern westDelayPattern = Pattern.compile("");
-    private static final Pattern westClosurePattern = Pattern.compile("");
+    private static final Pattern westBusPattern = Pattern.compile("#\\s?\\d\\d\\d?|\\d\\d\\d?\\s\\(");
+    private static final Pattern westDelayPattern = Pattern.compile("\\s(\\d\\d?|one)\\s");
 
     /**
      * Takes in a HH:MM string and adds the delay time in minutes
@@ -131,8 +131,9 @@ class TwitterHelper {
                 /* Get date */
                 String date = getDate(status.getCreatedAt());
 
-                System.out.println("'" + number + "'");
-                System.out.println("'" + time + "'");
+                System.out.println("Bus: '" + number + "'");
+                System.out.println("Delay: '" + time + "'");
+                System.out.println("Date: '" + date + "'");
 
                 /* Add to database */
                 Delay delay = new Delay(number, intTime, date);

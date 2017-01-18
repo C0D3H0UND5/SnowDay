@@ -116,7 +116,6 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
         super.onPostExecute(result);
         //dialog.dismiss();
         if(result == SUCCESS){
-            Toast.makeText(context, context.getString(R.string.success), Toast.LENGTH_LONG).show();
             // dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.success));
             if(databaseHelper.retrieveDelays().length > databaseHelper.getLatestDelay()){
                 databaseHelper.setLatestDelay(databaseHelper.retrieveDelays().length);

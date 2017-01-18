@@ -20,19 +20,25 @@ public class PullTweetsService extends Service {
 
     private SharedPreferences preferences;
     // Task repeat interval, in minutes
-    private int UPDATE_INTERVAL;
+    private final int SERVICE_NOTIFICATION_ID = 0;
     private final int MINUTES_TO_MILLISECONDS = 60000;
+    private int UPDATE_INTERVAL;
     private Handler taskHandler;
     private Runnable runnable;
+    private NotificationHelper serviceNotification;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "Service started by user.", Toast.LENGTH_SHORT).show();
+        serviceNotification = new NotificationHelper(getApplicationContext(), Settings.class,
+                getApplicationContext().getString(R.string.service_notification_title),
+                getApplicationContext().getString(R.string.service_notification_body),
+                getApplicationContext().getString(R.string.service_notification_ticker),
+                SERVICE_NOTIFICATION_ID);
          preferences = getApplicationContext()
                  .getSharedPreferences("my_preferences", MODE_PRIVATE);
 
-        // Get interval in milliseconds (1 minute)
-        UPDATE_INTERVAL = preferences.getInt("key_interval", 0)*MINUTES_TO_MILLISECONDS;
+        // Get interval in milliseconds
+        UPDATE_INTERVAL = 30000;//preferences.getInt("key_interval", 0)*MINUTES_TO_MILLISECONDS;
 
         taskHandler = new Handler();
         runnable = new Runnable() {
@@ -40,17 +46,13 @@ public class PullTweetsService extends Service {
             public void run() {
                 if (UPDATE_INTERVAL > 0) {
                     // Run the repeated task
-                    System.out.println("Running task every " + UPDATE_INTERVAL/MINUTES_TO_MILLISECONDS + " minutes");
                     executeTweetsTask();
                     taskHandler.postDelayed(runnable, UPDATE_INTERVAL);
                 }
-                else {
-                    System.out.println("Time is 0 seconds, don't run task");
-                }
             }
         };
-
         startRepeatingTask();
+
         return Service.START_STICKY;
     }
 
@@ -61,17 +63,21 @@ public class PullTweetsService extends Service {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         Toast.makeText(this, "Service created!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "Service stopped", Toast.LENGTH_SHORT).show();
+        super.onDestroy();
         stopRepeatingTask();
+        Toast.makeText(this, "Service stopped", Toast.LENGTH_SHORT).show();
     }
 
     private void executeTweetsTask() {
-        new GetTweetsAsync(this, DatabaseHelper.getSingletonInstance(this), preferences)
+        Toast.makeText(getApplicationContext(), "Executing task", Toast.LENGTH_SHORT).show();
+        new GetTweetsAsync(getApplicationContext(), DatabaseHelper
+                .getSingletonInstance(getApplicationContext()), preferences)
                 .execute(preferences.getString("key_district", "ASD_South"));
     }
 
@@ -80,12 +86,14 @@ public class PullTweetsService extends Service {
      */
      private synchronized void startRepeatingTask(){
         taskHandler.post(runnable);
+        serviceNotification.displayNotification(true);
      }
 
     /**
      * Stops the periodical update routine from running, by removing the callback.
      */
-     private synchronized void stopRepeatingTask(){
+    private synchronized void stopRepeatingTask(){
         taskHandler.removeCallbacks(runnable);
-     }
+        serviceNotification.clearNotification();
+    }
 }

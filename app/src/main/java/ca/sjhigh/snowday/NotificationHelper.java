@@ -22,11 +22,17 @@ class NotificationHelper {
     private String ticker;
     private int notificationId;
 
-    private NotificationCompat.Builder notificationBuilder;
     private NotificationManager notificationManager;
-    private Intent intent;
-    private PendingIntent pendingIntent;
 
+    /**
+     * Creates a new Notification object and tracks the necessary values to build and display it
+     * @param context The context to display in
+     * @param c The class for the notification to direct to
+     * @param title The title for this notification
+     * @param body The body / description text of this notification
+     * @param ticker The text to be displayed in the status bar when the notification is issued
+     * @param notificationId The unique identifier of this notification used by the system
+     */
     NotificationHelper(Context context, Class c, String title, String body, String ticker,
                        int notificationId) {
         this.context = context;
@@ -37,24 +43,41 @@ class NotificationHelper {
         this.notificationId = notificationId;
     }
 
-    public void displayNotification() {
+    /**
+     * This method overloads the other method creating a pseudo-optional parameter
+     */
+    public void displayNotification(){
+        displayNotification(false);
+    }
+
+    /**
+     * Displays a notification to the android system
+     * @param isOngoing tells the system whether the notification should be persistent
+     */
+    public void displayNotification(boolean isOngoing) {
         try{
-            intent = new Intent(context, c);
-            pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            notificationManager = (NotificationManager) context
+            Intent intent = new Intent(context, c);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+             notificationManager = (NotificationManager) context
                     .getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationBuilder = new NotificationCompat.Builder(context)
-                    .setAutoCancel(true)
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.mipmap.ic_notification)
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setTicker(ticker)
                     .setContentTitle(title)
                     .setContentText(body)
-                    .setContentIntent(pendingIntent);
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(isOngoing);
+            if(!isOngoing)
+                notificationBuilder.setAutoCancel(true);
             notificationManager.notify(notificationId, notificationBuilder.build());
         }
         catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void clearNotification(){
+        notificationManager.cancel(notificationId);
     }
 }

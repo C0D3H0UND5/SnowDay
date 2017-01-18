@@ -18,7 +18,11 @@
     <!-- Services -->
     <string name="service_label">Snowday background tweet gatherer</string>
     <string name="service_description">Insert description here</string>
+    <string name="service_process">Pull Tweets Process</string>
     <!-- Notifications -->
+    <string name="service_notification_title">Background service running</string>
+    <string name="service_notification_body">Tweet gathering service currently running. Touch to manage settings</string>
+    <string name="service_notification_ticker">Starting background task</string>
     <string name="delay_notification_title">New Delay(s)</string>
     <string name="delay_notification_body">Click to view all delayed buses</string>
     <string name="delay_notification_ticker">New delayed bus(es)</string>
@@ -39,7 +43,7 @@
     <string name="reset_settings_button">Reset Settings</string>
     <string name="tweet_position_settings_button">Reset tweet position</string>
     <!-- Text fields -->
-    <string name="background_service_text">Enable automatic tweet collection:</string>
+    <string name="background_service_text">Manage automatic tweet collection:</string>
     <!-- Art credit -->
     <string name="credit_greyhound">Credit: Amy Dai</string>
     <!-- Twitter configuration -->
