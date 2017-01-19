@@ -13,6 +13,9 @@ import android.widget.Spinner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * TODO Try and tidy up the interface and make it more user-friendly
+ */
 public class Settings extends AppCompatActivity {
 
     /** UI components **/
@@ -43,11 +46,9 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // Prepare shared preferences
         preferences = getApplicationContext().getSharedPreferences(MY_PREFERENCES, MODE_PRIVATE);
         editor = preferences.edit();
 
-        // Marry UI components in XML to their corresponding Java variable
         bus = (EditText)findViewById(R.id.bus_settings_editText);
         pickup = (EditText) findViewById(R.id.pickup_settings_editText);
         setBus = (Button)findViewById(R.id.bus_settings_button);
@@ -87,18 +88,15 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 pickupTime = pickup.getText().toString();
-                // Use regex to validate pickup time
                 if (timePattern.matcher(pickupTime).find()) {
-                    // Store in shared preferences
                     editor.putString("key_pickupTime", pickupTime);
                     editor.apply();
-                    // Clear and update
                     pickup.setText("");
                     pickup.setHint("Pickup time currently: " + pickupTime);
                 }
                 else {
-                    // Clear and raise error, don't update
                     bus.setText("");
+                    pickup.setHint("Pickup time currently: " + pickupTime);
                     pickup.setError("Please enter a valid time");
                 }
             }
@@ -136,7 +134,6 @@ public class Settings extends AppCompatActivity {
         startService.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // Turn on service
                 tweetServiceIntent = new Intent(getBaseContext(), PullTweetsService.class);
                 startService(tweetServiceIntent);
             }
@@ -144,7 +141,6 @@ public class Settings extends AppCompatActivity {
         endService.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // Turn off service
                 tweetServiceIntent = new Intent(getBaseContext(), PullTweetsService.class);
                 stopService(tweetServiceIntent);
             }

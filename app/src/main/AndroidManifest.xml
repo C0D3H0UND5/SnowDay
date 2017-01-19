@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.sjhigh.snowday">
 
-    <!-- Permission - Connect to the internet to get tweets -->
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,7 +13,7 @@
             android:label="@string/service_label"
             android:description="@string/service_description"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
         </service>
 
         <!-- ToDo make the service start when device boots up

@@ -28,15 +28,12 @@ public class SchoolClosures extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_closures);
 
-        // Prepare shared preferences
         preferences = getApplicationContext().getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
         myDatabase = DatabaseHelper.getSingletonInstance(SchoolClosures.this);
 
-        // Marry UI components in XML to their corresponding Java variable
         clearList = (Button)findViewById(R.id.clear_closures_button);
         tweetList = (TextView)findViewById(R.id.tweets_closures_textView);
 
-        // Set TextView to be scrollable
         tweetList.setMovementMethod(new ScrollingMovementMethod());
 
         /** Add click listeners **/
@@ -62,7 +59,7 @@ public class SchoolClosures extends AppCompatActivity {
             }
         }
         else{
-            string = "No new closures";
+            string = getString(R.string.no_closures);
         }
         tweetList.setText(string);
     }

@@ -11,6 +11,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+/*
+        TODO Allow user to store multiple buses
+
+        TODO Allow user to select between ASD-South and ASD-West
+     */
 public class MainActivity extends AppCompatActivity {
 
     /** UI components **/
@@ -19,15 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView userInfo;
 
     /** Logic variables **/
-    private String user;
-    // I want to have the app store all of the delays for the current day in a database. It will
-    // delete all entries at the end of the day or individually if there is a correction tweet
-    //
-    // ^ This is working except it executes when the tweets are updated. Tis should be fine since
-    // The task will be run repeatedly
     private DatabaseHelper myDatabase;
-    // I want to allow multiple buses to be added so I'll probably have to make a preference object
-    // and then store them in a List. The only problem will be naming the groups or the keys
     private final String PREFERENCES_FILE_NAME = "my_preferences";
     private final String DATABASE_POSITION_FILE_NAME = "database_files";
     private SharedPreferences preferences;
@@ -36,11 +33,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        user = "ASD_South";
-        // user = "ASD_West";
-        // ASD-W structures their tweets differently so in order to support that this would require
-        // a filter overhaul
 
         // Prepare shared preferences
         preferences = getApplicationContext().getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
@@ -56,14 +48,13 @@ public class MainActivity extends AppCompatActivity {
         userInfo.setText(
                 "Current bus: " + ((busNumber == 0)? "not set" : busNumber) +
                 "\n\nNormal pickup time: " + pickupTime + "\n\nExpected pickup time: " +
-                (pickupTime.equals("not set")? "not availabale" :
+                (pickupTime.equals("not set")? "not available" :
                 TwitterHelper.addTime(pickupTime, myDatabase.retrieveDelay(busNumber).getDelay())));
 
         /** Add click listeners **/
         viewDelays.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // Start BusDelays.class
                 Intent delays = new Intent(MainActivity.this, BusDelays.class);
                 startActivity(delays);
             }
@@ -71,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         viewClosures.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // Start SchoolClosures.class
                 Intent closures = new Intent(MainActivity.this, SchoolClosures.class);
                 startActivity(closures);
             }

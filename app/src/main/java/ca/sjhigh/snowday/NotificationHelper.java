@@ -10,7 +10,7 @@ import android.support.v4.app.NotificationCompat;
 /**
  * Created by Jason on 2017-01-12.
  *
- * This class pushes a notification to the system using the passed parameters
+ * This class manages notifications interacting with the system
  */
 
 class NotificationHelper {
@@ -44,9 +44,9 @@ class NotificationHelper {
     }
 
     /**
-     * This method overloads the other method creating a pseudo-optional parameter
+     * This method overloads the other displayNotification method creating a pseudo-optional parameter
      */
-    public void displayNotification(){
+    void displayNotification(){
         displayNotification(false);
     }
 
@@ -54,7 +54,7 @@ class NotificationHelper {
      * Displays a notification to the android system
      * @param isOngoing tells the system whether the notification should be persistent
      */
-    public void displayNotification(boolean isOngoing) {
+    void displayNotification(boolean isOngoing) {
         try{
             Intent intent = new Intent(context, c);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -78,7 +78,10 @@ class NotificationHelper {
         }
     }
 
-    public void clearNotification(){
+    /**
+     * Clears an already displayed notification
+     */
+    void clearNotification(){
         notificationManager.cancel(notificationId);
     }
 }

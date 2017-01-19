@@ -38,7 +38,7 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
     private final int FAILURE = SUCCESS + 1;
     private ProgressDialog dialog;
 
-    public GetTweetsAsync(Context context, DatabaseHelper databaseHelper, SharedPreferences preferences){
+    GetTweetsAsync(Context context, DatabaseHelper databaseHelper, SharedPreferences preferences){
         this.context = context;
         this.databaseHelper = databaseHelper;
         this.preferences = preferences;
@@ -59,7 +59,6 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        //dialog.show();
     }
 
     @Override
@@ -81,19 +80,12 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
 
             Twitter twitter = new TwitterFactory(builder.build()).getInstance();
 
-            // I'll leave this here in case we want to do queries in the future
-            // Query query = new Query(params[0]);
-            // QueryResult result = twitter.search(query);
-            // List<twitter4j.Status> tweets = result.getTweets();
-
             // Gets the tweets from newest to oldest
             long tweetId = preferences.getLong("key_tweetId", 1);
             List<twitter4j.Status> tweets = twitter.getUserTimeline(params[0], new Paging().sinceId(tweetId));
             // The first tweet is the latest so it will be stored as the most recently checked
             if(tweets.size() > 0){
-                // System.out.println("Putting in shared preferences: " + tweets.get(0).getId());
                 preferences.edit().putLong("key_tweetId", tweets.get(0).getId()).apply();
-                // System.out.println(tweets.size());
 
             }
             // Changes the tweet order to be oldest to newest
@@ -114,9 +106,7 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
     @Override
     protected void onPostExecute(Integer result){
         super.onPostExecute(result);
-        //dialog.dismiss();
         if(result == SUCCESS){
-            // dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.success));
             if(databaseHelper.retrieveDelays().length > databaseHelper.getLatestDelay()){
                 databaseHelper.setLatestDelay(databaseHelper.retrieveDelays().length);
                 TwitterHelper.cullDelays(databaseHelper);
@@ -132,7 +122,6 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
         }
         else{
             Toast.makeText(context, context.getString(R.string.error), Toast.LENGTH_LONG).show();
-            // dialog = ProgressDialog.show(MainActivity.this, "", getString(R.string.error));
         }
     }
 }

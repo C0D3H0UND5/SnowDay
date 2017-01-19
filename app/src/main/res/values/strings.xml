@@ -44,6 +44,8 @@
     <string name="tweet_position_settings_button">Reset tweet position</string>
     <!-- Text fields -->
     <string name="background_service_text">Manage automatic tweet collection:</string>
+    <string name="no_delays">No new delayed buses</string>
+    <string name="no_closures">No new closures</string>
     <!-- Art credit -->
     <string name="credit_greyhound">Credit: Amy Dai</string>
     <!-- Twitter configuration -->

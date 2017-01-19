@@ -28,16 +28,12 @@ public class BusDelays extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_delays);
 
-        // Get shared preferences
         preferences = getApplicationContext().getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
-        // Get database
         myDatabase = DatabaseHelper.getSingletonInstance(BusDelays.this);
 
-        // Marry UI components in XML to their corresponding Java variable
         clearList = (Button)findViewById(R.id.clear_delays_button);
         tweetList = (TextView)findViewById(R.id.tweets_delays_textView);
 
-        // Set TextView to be scrollable
         tweetList.setMovementMethod(new ScrollingMovementMethod());
 
         /** Add click listeners **/
@@ -55,6 +51,7 @@ public class BusDelays extends AppCompatActivity {
      * Retrieves all of the records from the database and displays them
      */
     private void displayRecords(){
+        TwitterHelper.cullDelays(myDatabase);
         String string = "";
         Delay[] delays = myDatabase.retrieveDelays();
         if (delays.length > 0){
@@ -63,7 +60,7 @@ public class BusDelays extends AppCompatActivity {
             }
         }
         else{
-            string = "No new delays";
+            string = getString(R.string.no_delays);
         }
         tweetList.setText(string);
     }
@@ -75,6 +72,9 @@ public class BusDelays extends AppCompatActivity {
         myDatabase.deleteAllDelays();
     }
 
+    /**
+     * Adds the custom menu to this activity
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

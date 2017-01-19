@@ -3,7 +3,7 @@ package ca.sjhigh.snowday;
 /**
  * Created by Jason on 2016-12-23.
  *
- * This class contains the information for any tweets containing closures
+ * Creates an object to contain the information for any tweets containing closures
  */
 
 class Closure {
@@ -11,9 +11,9 @@ class Closure {
     private String text;
     private String date;
 
-    public Closure(){}
+    Closure(){}
 
-    public Closure(String text, String date){
+    Closure(String text, String date){
         this.text = text;
         this.date = date;
     }
@@ -26,11 +26,11 @@ class Closure {
         this.text = text;
     }
 
-    public String getDate() {
+    String getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    void setDate(String date) {
         this.date = date;
     }
 

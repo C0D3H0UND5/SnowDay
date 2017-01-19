@@ -10,16 +10,12 @@ import android.widget.Toast;
 /**
  * Created by Jason on 2017-01-11.
  *
- * 1. Retrieve tweets periodically
- * 2. Filter tweets
- * 3. Update database
- * 4. Send notification
+ * TODO Test this some more. I don't think it is fully working
  */
 
 public class PullTweetsService extends Service {
 
     private SharedPreferences preferences;
-    // Task repeat interval, in minutes
     private final int SERVICE_NOTIFICATION_ID = 0;
     private final int MINUTES_TO_MILLISECONDS = 60000;
     private int UPDATE_INTERVAL;
@@ -74,6 +70,9 @@ public class PullTweetsService extends Service {
         Toast.makeText(this, "Service stopped", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Runs the asynchronous task to gather tweets
+     */
     private void executeTweetsTask() {
         Toast.makeText(getApplicationContext(), "Executing task", Toast.LENGTH_SHORT).show();
         new GetTweetsAsync(getApplicationContext(), DatabaseHelper

@@ -3,46 +3,44 @@ package ca.sjhigh.snowday;
 /**
  * Created by Jason on 2016-12-20.
  *
- * This class will be used to allow easy transfer of data between the database and any components
- * of the app that need that information
+ * Creates an object to contain the information for any tweets containing bus delays
  */
 
 class Delay {
 
-    /** Logic variables **/
     private int busNumber;
     private int time;
     private String date;
 
-    public Delay(){}
+    Delay(){}
 
-    public Delay(int busNumber, int delay, String date){
+    Delay(int busNumber, int delay, String date){
         this.busNumber = busNumber;
         this.time = delay;
         this.date = date;
     }
 
-    public int getBusNumber() {
+    int getBusNumber() {
         return busNumber;
     }
 
-    public void setBusNumber(int busNumber) {
+    void setBusNumber(int busNumber) {
         this.busNumber = busNumber;
     }
 
-    public int getDelay() {
+    int getDelay() {
         return time;
     }
 
-    public void setDelay(int time) {
+    void setDelay(int time) {
         this.time = time;
     }
 
-    public String getDate() {
+    String getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    void setDate(String date) {
         this.date = date;
     }
 
