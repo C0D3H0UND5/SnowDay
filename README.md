@@ -4,11 +4,18 @@ Enter description here
 
 # App capabilities:
 
-- Pull tweets from a specified Twitter user
+- Monitor the *ASD-S* Twitter page for any school bus delays
 
-- Filter information out of tweets (Currently pulls numbers but Regex can get anything)
+- Monitor the *ASD-S* Twitter page for any school related closures
 
-- Store information about delayed buses in database and retrieve it
+- Filter and store information from tweets
+
+- View all delays or closures for the current day
+
+- Track information about a particular bus (optional)
+  - Calculates expected arrival time of a bus based on the inputted pickup time
+
+- Automatically check for new tweets at varied intervals (optional)
 
 # Screenshots
 
