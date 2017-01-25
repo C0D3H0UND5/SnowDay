@@ -6,7 +6,7 @@
         android:id="@+id/refresh_child_action"
         android:title="@string/get_tweets_button"
         android:orderInCategory="100"
-        android:icon="@mipmap/ic_refresh_white"
+        android:icon="@drawable/ic_action_refresh"
         app:showAsAction="ifRoom"/>
 
     <!-- Settings -->
@@ -14,6 +14,5 @@
         android:id="@+id/settings_child_action"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        android:icon="@mipmap/ic_settings_white"
         app:showAsAction="never"/>
 </menu>

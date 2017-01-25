@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 /**
@@ -30,11 +31,11 @@ public class PullTweetsService extends Service {
                 getApplicationContext().getString(R.string.service_notification_body),
                 getApplicationContext().getString(R.string.service_notification_ticker),
                 SERVICE_NOTIFICATION_ID);
-         preferences = getApplicationContext()
-                 .getSharedPreferences("my_preferences", MODE_PRIVATE);
+        /* Gets shared preferences */
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         // Get interval in milliseconds
-        UPDATE_INTERVAL = preferences.getInt("key_interval", 0)*MINUTES_TO_MILLISECONDS;
+        UPDATE_INTERVAL = Integer.valueOf(preferences.getString("key_refreshInterval", "0"))*MINUTES_TO_MILLISECONDS;
 
         taskHandler = new Handler();
         runnable = new Runnable() {
@@ -77,7 +78,7 @@ public class PullTweetsService extends Service {
         Toast.makeText(getApplicationContext(), "Executing task", Toast.LENGTH_SHORT).show();
         new GetTweetsAsync(getApplicationContext(), DatabaseHelper
                 .getSingletonInstance(getApplicationContext()), preferences)
-                .execute(preferences.getString("key_district", "ASD_South"));
+                .execute(preferences.getString("key_schoolDistrict", "ASD_South"));
     }
 
     /**

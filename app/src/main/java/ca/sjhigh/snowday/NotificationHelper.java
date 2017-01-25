@@ -61,7 +61,7 @@ class NotificationHelper {
              notificationManager = (NotificationManager) context
                     .getSystemService(Context.NOTIFICATION_SERVICE);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-                    .setSmallIcon(R.mipmap.ic_tweet_refresh)
+                    .setSmallIcon(R.drawable.ic_stat_tweet)
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setTicker(ticker)
                     .setContentTitle(title)
@@ -69,7 +69,7 @@ class NotificationHelper {
                     .setContentIntent(pendingIntent)
                     .setOngoing(isOngoing);
             if(!isOngoing){
-                notificationBuilder.setAutoCancel(true).setSmallIcon(R.mipmap.ic_notification);
+                notificationBuilder.setAutoCancel(true).setSmallIcon(R.drawable.ic_stat_bus);
             }
             notificationManager.notify(notificationId, notificationBuilder.build());
         }

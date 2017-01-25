@@ -3,6 +3,7 @@ package ca.sjhigh.snowday;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
@@ -20,7 +21,6 @@ public class BusDelays extends AppCompatActivity {
 
     /** Logic variables **/
     private DatabaseHelper myDatabase;
-    private final String PREFERENCES_FILE_NAME = "my_preferences";
     private SharedPreferences preferences;
 
     @Override
@@ -28,7 +28,11 @@ public class BusDelays extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bus_delays);
 
-        preferences = getApplicationContext().getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
+        /* Sets the default preferences to avoid situations where the user has not set them */
+        PreferenceManager.setDefaultValues(this, R.xml.preference_settings, false);
+        /* Gets shared preferences */
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        /* Gets a copy of the database */
         myDatabase = DatabaseHelper.getSingletonInstance(BusDelays.this);
 
         clearList = (Button)findViewById(R.id.clear_delays_button);
@@ -90,7 +94,7 @@ public class BusDelays extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.refresh_child_action:
                 new GetTweetsAsync(BusDelays.this, myDatabase, preferences)
-                        .execute(preferences.getString("key_district", "ASD_South"));
+                        .execute(preferences.getString("key_schoolDistrict", "ASD_South"));
                 return true;
             case R.id.settings_child_action:
                 Intent settings = new Intent(BusDelays.this, Settings.class);

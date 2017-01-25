@@ -3,6 +3,7 @@ package ca.sjhigh.snowday;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
@@ -20,7 +21,6 @@ public class SchoolClosures extends AppCompatActivity {
 
     /** Logic variables **/
     private DatabaseHelper myDatabase;
-    private final String PREFERENCES_FILE_NAME = "my_preferences";
     private SharedPreferences preferences;
 
     @Override
@@ -28,7 +28,11 @@ public class SchoolClosures extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_closures);
 
-        preferences = getApplicationContext().getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
+        /* Sets the default preferences to avoid situations where the user has not set them */
+        PreferenceManager.setDefaultValues(this, R.xml.preference_settings, false);
+        /* Gets shared preferences */
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        /* Gets a copy of the database */
         myDatabase = DatabaseHelper.getSingletonInstance(SchoolClosures.this);
 
         clearList = (Button)findViewById(R.id.clear_closures_button);

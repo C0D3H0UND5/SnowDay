@@ -81,11 +81,11 @@ class GetTweetsAsync extends AsyncTask<String, Void, Integer> {
             Twitter twitter = new TwitterFactory(builder.build()).getInstance();
 
             // Gets the tweets from newest to oldest
-            long tweetId = preferences.getLong("key_tweetId", 1);
+            long tweetId = Long.valueOf(preferences.getString("key_tweetId", "1"));
             List<twitter4j.Status> tweets = twitter.getUserTimeline(params[0], new Paging().sinceId(tweetId));
             // The first tweet is the latest so it will be stored as the most recently checked
             if(tweets.size() > 0){
-                preferences.edit().putLong("key_tweetId", tweets.get(0).getId()).apply();
+                preferences.edit().putString("key_tweetId", String.valueOf(tweets.get(0).getId())).apply();
 
             }
             // Changes the tweet order to be oldest to newest

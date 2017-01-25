@@ -6,6 +6,5 @@
         android:id="@+id/settings_main_action"
         android:title="@string/action_settings"
         android:orderInCategory="100"
-        android:icon="@mipmap/ic_settings_white"
         app:showAsAction="never"/>
 </menu>

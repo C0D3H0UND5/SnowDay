@@ -3,6 +3,7 @@ package ca.sjhigh.snowday;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
     /** Logic variables **/
     private DatabaseHelper myDatabase;
-    private final String PREFERENCES_FILE_NAME = "my_preferences";
     private final String DATABASE_POSITION_FILE_NAME = "database_files";
     private SharedPreferences preferences;
 
@@ -34,8 +34,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Prepare shared preferences
-        preferences = getApplicationContext().getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
+        /* Sets the default preferences to avoid situations where the user has not set them */
+        PreferenceManager.setDefaultValues(this, R.xml.preference_settings, false);
+        /* Gets shared preferences */
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        /* Gets a copy of the database */
         myDatabase = DatabaseHelper.getSingletonInstance(MainActivity.this);
 
         // Marry UI components in XML to their corresponding Java variable
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         viewClosures = (Button)findViewById(R.id.closures_main_button);
         userInfo = (TextView)findViewById(R.id.information_main_textView);
 
-        int busNumber = preferences.getInt("key_busNumber", 0);
+        int busNumber = Integer.valueOf(preferences.getString("key_busNumber", "0"));
         String pickupTime = preferences.getString("key_pickupTime", "not set");
         userInfo.setText(
                 "Current bus: " + ((busNumber == 0)? "not set" : busNumber) +
@@ -74,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        preferences = getSharedPreferences(PREFERENCES_FILE_NAME, MODE_PRIVATE);
-        int busNumber = preferences.getInt("key_busNumber", 0);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int busNumber = Integer.valueOf(preferences.getString("key_busNumber", "0"));
         String pickupTime = preferences.getString("key_pickupTime", "not set");
         userInfo.setText(
                 "Current bus: " + ((busNumber == 0)? "not set" : busNumber) +

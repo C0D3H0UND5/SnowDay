@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Bus">
+        <EditTextPreference
+            android:key="key_busNumber"
+            android:icon="@mipmap/ic_preference_bus"
+            android:title="Bus number"
+            android:summary="Current bus number"
+            android:defaultValue="not set"/>
+        <EditTextPreference
+            android:key="key_pickupTime"
+            android:icon="@mipmap/ic_preference_pickup"
+            android:title="Pickup time"
+            android:summary="Current pickup time"
+            android:defaultValue="not set"/>
+        <PreferenceScreen
+            android:key="second_screen"
+            android:title="More options"
+            android:persistent="false">
+            <CheckBoxPreference
+                android:key="pref_key_auto_delete"
+                android:title="Title"
+                android:summary="Summary"
+                android:defaultValue="false" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="District">
+        <ListPreference
+            android:key="key_schoolDistrict"
+            android:icon="@mipmap/ic_preference_district"
+            android:title="School district"
+            android:summary="Current school district"
+            android:defaultValue="1"
+            android:entries="@array/district_array"
+            android:entryValues="@array/district_array"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Tweets">
+        <SwitchPreference
+            android:key="key_runTweetService"
+            android:icon="@mipmap/ic_preference_automatic"
+            android:title="Automatic tweet collection"
+            android:summary="Collects tweets at a periodic interval"
+            android:defaultValue="false"/>
+        <ListPreference
+            android:key="key_refreshInterval"
+            android:icon="@mipmap/ic_preference_refresh"
+            android:title="Refresh interval"
+            android:summary="Interval in minutes that tweets are gathered"
+            android:defaultValue="1"
+            android:entries="@array/interval_array"
+            android:entryValues="@array/interval_array"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Reset">
+        <SwitchPreference
+            android:key="pref_reset"
+            android:title="Reset tweet position"
+            android:summary="Do I really need to explain this"
+            android:defaultValue="false"/>
+        <SwitchPreference
+            android:key="pref_reset"
+            android:title="Reset settings"
+            android:summary="Do I really need to explain this"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+</PreferenceScreen>
